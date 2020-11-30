@@ -62,7 +62,6 @@
 	
 	    var mainBody = document.querySelectorAll('body[scroll=no]');
 	    if (mainBody && mainBody.length > 0) {
-			debugger;
 	        Initialize();
 	        var button = document.getElementById("crm-gmcs-button");
 	        if (button) {
