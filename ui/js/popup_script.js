@@ -119,7 +119,6 @@
 	  	var typeEntity = config.isActivity == "true" ? "activity" : config.FindEntityRecord;
 	  	var selectFields = getFieldForConnectingString(config);
 	  	var oDataEndpointUrl = config.Address + "api/data/v9.0/contacts?$select=" + typeEntity + "id" + selectFields + filterParam;
-	  	var service = GetRequestObject();
 	  	var xhr = new XMLHttpRequest();
 	  	xhr.open("GET", oDataEndpointUrl, true);
 	  	xhr.onload = function (e) {
