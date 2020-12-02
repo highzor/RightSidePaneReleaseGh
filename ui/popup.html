@@ -9,10 +9,12 @@
   <style>
     .prokrutka {
       height: 200px;
-      width: 100%;
+      width: 95%;
       background: #fff;
       border: 1px solid #C1C1C1;
       overflow-y: scroll;
+      margin-right: auto;
+      margin-left: auto;
     }
   </style>
 </head>
@@ -21,7 +23,7 @@
     <button type="button" class="btn btn-primary btn-sm" id="cc">Новый контакт</button>
     <button type="button" class="btn btn-secondary btn-sm" id="acc">Все контакты</button>
   </div>
-  <div class="input-group mb-3" style="padding-top: 50px;">
+  <div class="input-group mb-3" style="padding-top: 50px;margin-left: auto;margin-right: auto;width: 95%;">
     <input type="text" id="searchForm" class="form-control" placeholder="Найти" aria-label="Найти" aria-describedby="button-addon2">
     <div class="input-group-append">
       <button class="btn btn-outline-secondary btn-sm" type="button" id="button-addon2"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-search" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -31,8 +33,8 @@
     </div>
   </div>
   <p style="text-align:center">Результаты поиска</p>
-  <div class="prokrutka" id="prokrutkaid" style="margin-bottom: 15px;">
-  </div>
+    <div class="prokrutka" id="prokrutkaid" style="margin-bottom: 15px;">
+    </div>
   <div class="col-md-4 text-center">
     <button type="button" class="btn btn-primary btn-sm" id="oc">Открыть контакт</button>
   </div>

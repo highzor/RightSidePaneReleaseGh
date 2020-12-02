@@ -1,6 +1,9 @@
 	  var currentUrl;
 	  chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
 	  	if(tabs.length != 0) {
+	  		var check1 = document.getElementById("navTabGMCSButton2div");
+	  		var check2 = document.getElementById("crm-gmcs-button");
+	  		if (!check1 && !check2) return;
 	  		currentUrl = tabs[0].url;
 	  		getConfigObject();
 	  	}
@@ -50,7 +53,8 @@
 	  		pEl.style.lineHeight = '1.1';
 	  		pEl.id = item.contactid;
 	  		pEl.style.cursor = 'pointer';
-	  		pEl.style.marginLeft = '10px';
+	  		pEl.style.marginBottom = '0';
+	  		pEl.style.paddingBottom = '16px';
 	  		var string = '';
 	  		if (item.fullname != null) {
 	  			string += 'Контакт: ' + item.fullname;

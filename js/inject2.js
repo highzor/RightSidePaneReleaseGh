@@ -45,9 +45,9 @@
 			document.getElementById("crm-gmcs-button2").addEventListener("click", slideRightPane2);
 		}
 	}
-
-	var mainBody2 = document.querySelectorAll('#navBar');
-	if (mainBody2 && mainBody2.length > 0) {
+	var crmMasthead2 = document.getElementById('crmMasthead');
+	var mainBody2 = document.querySelectorAll('body[scroll=no]');
+	if (mainBody2 && mainBody2.length > 0 && crmMasthead2) {
 		Initialize2();
 		var button2 = document.getElementById("crm-gmcs-button2");
 		if (button2) {
