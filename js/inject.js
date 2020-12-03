@@ -64,12 +64,18 @@
 		} else {
 			return;
 		}
-	} else {
-		var iframe = document.getElementById("mySlide");
-		iframe.style.minWidth = "0px";
-		iframe.style.width = "0%";
-		iframe.style.right = "0%";
-	}
+	} 
+	// else {
+	// 	debugger;
+	// 	var openSelectEntity = document.getElementById("oc");
+	// 	if (openSelectEntity) {
+	// 	openSelectEntity.style.display = 'none';
+	// }
+	// 	var iframe = document.getElementById("mySlide");
+	// 	iframe.style.minWidth = "0px";
+	// 	iframe.style.width = "0%";
+	// 	iframe.style.right = "0%";
+	// }
 	
 	function slideRightPane() {
 		toggle();

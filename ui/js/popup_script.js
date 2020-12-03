@@ -185,5 +185,7 @@
 	  	}
 	  	try {
 	  	xhr.send(null);
-	  } catch {}
+	  } catch (e) {var bkg = chrome.extension.getBackgroundPage();
+            bkg.console.log(e);
+	  }
 	  }

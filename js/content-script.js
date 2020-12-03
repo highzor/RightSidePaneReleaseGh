@@ -1,3 +1,5 @@
+  var topBarCheck = window.top.document.querySelector('#navTabGroupDiv');
+  if (topBarCheck) {
   var iframe = document.getElementById("mySlide");
   if (!iframe) {
   	iframe = document.createElement('iframe');
@@ -14,6 +16,7 @@
   	iframe.src = chrome.extension.getURL("ui/popup.html");
   	document.body.appendChild(iframe);
   }
+}
 
   function toggle() {
   	if (!topBar) {
