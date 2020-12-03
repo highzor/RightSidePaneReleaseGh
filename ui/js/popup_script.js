@@ -36,6 +36,7 @@
 	  	var inputLine = document.getElementById("searchForm");
 	  	if (!inputLine && inputLine.value.length == 0) return;
 	  	var config = JSON.parse(sessionStorage.config);
+	  	if (!config && config == 'undefined') return;
 	  	var searchField = defineField(inputLine.value, config);
 	  	var filterParam = getFilterParam(searchField, inputLine.value);
 	  	var entities = new Array();
@@ -96,7 +97,7 @@
 
 	  function openEntityTestFunc(id) {
 	  	var config = JSON.parse(sessionStorage.config);
-	  	if (config) {
+	  	if (config && config != 'undefined') {
 	  		var url = config.Address + "main.aspx?etn=" + config.FindEntityRecord + "&id={" + id + "}&pagetype=entityrecord";
 	  		window.open(url, "_blank"); 
 	  	}
@@ -153,7 +154,7 @@
 
 	  function openEntityListFunc() {
 	  	var config = JSON.parse(sessionStorage.config);
-	  	if (config) {
+	  	if (config && config != 'undefined') {
 	  		var url = config.Address+"main.aspx?etn=" + config.FindEntityRecord + "&pagetype=entitylist&viewid=%7b00000000-0000-0000-00AA-000010003006%7d&viewtype=1039";
 	  		window.open(url, "_blank"); 
 	  	}
@@ -161,7 +162,7 @@
 
 	  function createEntity() {
 	  	var config = JSON.parse(sessionStorage.config);
-	  	if (config) {
+	  	if (config && config != 'undefined') {
 	  		var url = config.Address+"main.aspx?etn=" + config.FindEntityRecord + "&pagetype=entityrecord";
 	  		window.open(url, "_blank"); 
 	  	}
