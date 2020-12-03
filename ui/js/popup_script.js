@@ -7,10 +7,10 @@
 	  });
 
 	  document.addEventListener("DOMContentLoaded", function (dcle) {
-	  	var createContactButton = document.getElementById("cc");
+	  	var createContactButton = document.getElementById("button-newContact");
 	  	var searchButton = document.getElementById("button-addon2");
-	  	var openSelectEntity = document.getElementById("oc");
-	  	var openEntityList = document.getElementById("acc");
+	  	var openSelectEntity = document.getElementById("button-openContact");
+	  	var openEntityList = document.getElementById("button-allContacts");
 	  	var enterForSearchEntity = document.getElementById("searchForm");
 	  	if (createContactButton) {
 	  		createContactButton.addEventListener("click", createEntity);
@@ -78,7 +78,7 @@
 	  var curEntityId;
 	  function selectEntityFunc(a) {
 	  	curEntityId = a.path[0].id;
-	  	var openSelectEntity = document.getElementById("oc");
+	  	var openSelectEntity = document.getElementById("button-openContact");
 	  	var selectedPEntity = document.getElementById(a.path[1].id);
 	  	if (openSelectEntity) {
 	  		if (a.path[1].children.length > 1) {
