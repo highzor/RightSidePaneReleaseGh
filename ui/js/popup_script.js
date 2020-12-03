@@ -177,10 +177,13 @@
 	  	xhr.onload = function (e) {
 	  		if (xhr.readyState === 4) {
 	  			if (xhr.status === 200) {
+	  				if (xhr.responseText.length == 0) return;
 	  				obj = eval(xhr.responseText);
 	  				sessionStorage.config = JSON.stringify(obj);
 	  			} else return;
 	  		}
 	  	}
+	  	try {
 	  	xhr.send(null);
+	  } catch {}
 	  }
