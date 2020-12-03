@@ -9,21 +9,16 @@
 		var linkElement = document.createElement("a");
 		linkElement.setAttribute("class", "navTabGMCSButtonLink");
 		linkElement.setAttribute("title", "");
-
 		var linkImageContainerElement = document.createElement("span");
 		linkImageContainerElement.setAttribute("class", "navTabGMCSButtonImageContainer");
-
 		var imageElement = document.createElement("img");
 		imageElement.setAttribute("src", chrome.extension.getURL("img/icon-24.png"));
-
 		powerPaneButton.setAttribute('style', 'float:right; width:50px; height:48px;cursor:pointer!important');
 		linkElement.setAttribute("style", "float:right; width:50px; height:48px;cursor:pointer!important;text-align:center");
 		imageElement.setAttribute("style", "padding-top:10px");
-		
 		linkImageContainerElement.appendChild(imageElement);
 		linkElement.appendChild(linkImageContainerElement);
 		powerPaneButton.appendChild(linkElement);
-
 		return powerPaneButton;
 	}
 	
@@ -61,7 +56,6 @@
 	}
 	var crmMasthead = document.getElementById('crmMasthead');
 	var mainBody = document.querySelectorAll('body[scroll=no]');
-	debugger;
 	if (mainBody && mainBody.length > 0 && crmMasthead) {
 		Initialize();
 		var button = document.getElementById("crm-gmcs-button");

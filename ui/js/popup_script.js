@@ -1,9 +1,6 @@
 	  var currentUrl;
 	  chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
 	  	if(tabs.length != 0) {
-	  		var check1 = document.getElementById("navTabGMCSButton2div");
-	  		var check2 = document.getElementById("crm-gmcs-button");
-	  		if (!check1 && !check2) return;
 	  		currentUrl = tabs[0].url;
 	  		getConfigObject();
 	  	}
@@ -162,16 +159,6 @@
 	  	}
 	  }
 
-	  function openEntity() {
-	  	var openSelectEntity = document.getElementById("exampleFormControlSelect2");
-	  	var config = JSON.parse(sessionStorage.config);
-	  	if (config && openSelectEntity) {
-	  		var url = config.Address + "main.aspx?etn=" + config.FindEntityRecord + "&id={" + openSelectEntity.value + "}&pagetype=entityrecord";
-	  		window.open(url, "_blank"); 
-	  	}
-	  }
-
-
 	  function createEntity() {
 	  	var config = JSON.parse(sessionStorage.config);
 	  	if (config) {
@@ -192,9 +179,7 @@
 	  			if (xhr.status === 200) {
 	  				obj = eval(xhr.responseText);
 	  				sessionStorage.config = JSON.stringify(obj);
-	  			} else {
-	  				console.error(xhr.statusText);
-	  			}
+	  			} else return;
 	  		}
 	  	}
 	  	xhr.send(null);
