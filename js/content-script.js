@@ -1,3 +1,20 @@
+  // chrome.extension.onMessage.addListener(
+  // function(request) 
+  // {
+  //   if (request == 'hello')
+  // {
+  //   var openPageScript = ''
+  //       + 'var iframeNew = document.getElementById("mySlide");'
+  //       + 'iframeNew.src = chrome.extension.getURL("ui/popup.html");'
+  //   chrome.tabs.executeScript({
+  //       code: openPageScript
+  //   });
+
+  // }
+  // });
+
+
+
   var topBarCheck = window.top.document.querySelector('#navTabGroupDiv');
   if (topBarCheck) {
     var iframe = document.getElementById("mySlide");

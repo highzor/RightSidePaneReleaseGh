@@ -29,6 +29,15 @@
 	  	}
 	  	if (logOutButton) {
 	  		logOutButton.addEventListener("click", SignOut);
+	  	// 	logOutButton.addEventListener("click", function () {
+	  	// 		var leavePageScript = ''
+    //     + 'var iframe = document.getElementById("mySlide");'
+    //     + 'iframe.src = chrome.extension.getURL("ui/popupAuth.html");'
+    // chrome.tabs.executeScript({
+    //     code: leavePageScript
+    // });
+	  	// 	});
+	  	// }
 	  }
 	});
 
