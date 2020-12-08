@@ -229,16 +229,8 @@
 	  		}
 	  	}
 	  	try {
-<<<<<<< HEAD
 	  		xhr.send(null);
 	  	} catch (e) {var bkg = chrome.extension.getBackgroundPage();
 	  		bkg.console.log(e);
 	  	}
 	  }
-=======
-	  	xhr.send(null);
-	  } catch (e) {var bkg = chrome.extension.getBackgroundPage();
-            bkg.console.log(e);
-	  }
-	  }
->>>>>>> aa73330569b5165b0ebdaa7fc678da2d5a273fa2
