@@ -19,11 +19,12 @@
   </style>
 </head>
 <body>
-  <div class="col-md-4 text-center" style="margin-top: 50px;">
+  <button type="button" class="btn btn-secondary btn-sm" id="button-LogOut" style="position: absolute;top: 10px;right: 10px;">Выйти</button>
+  <div class="col-md-4 text-center" style="margin-top: 50%;">
     <button type="button" class="btn btn-primary btn-sm" id="button-newContact">Новый контакт</button>
     <button type="button" class="btn btn-secondary btn-sm" id="button-allContacts">Все контакты</button>
   </div>
-  <div class="input-group mb-3" style="padding-top: 50px;margin-left: auto;margin-right: auto;width: 95%;">
+  <div class="input-group mb-3" style="margin-top: 50px;margin-left: auto;margin-right: auto;width: 95%;">
     <input type="text" id="searchForm" class="form-control" placeholder="Найти" aria-label="Найти" aria-describedby="button-addon2">
     <div class="input-group-append">
       <button class="btn btn-outline-secondary btn-sm" type="button" id="button-addon2"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-search" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -33,10 +34,12 @@
     </div>
   </div>
   <p style="text-align:center">Результаты поиска</p>
-    <div class="prokrutka" id="prokrutkaid" style="margin-bottom: 15px;">
-    </div>
+  <div class="prokrutka" id="prokrutkaid" style="margin-bottom: 15px;">
+  </div>
   <div class="col-md-4 text-center">
     <button type="button" class="btn btn-primary btn-sm" id="button-openContact">Открыть контакт</button>
   </div>
+  <script src="js/signalr.min.js"></script>
+  <script src="jquery/jquery-3.5.1.js"></script>
 </body>
 </html>

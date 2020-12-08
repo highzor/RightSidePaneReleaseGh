@@ -12,6 +12,7 @@
 	  	var openSelectEntity = document.getElementById("button-openContact");
 	  	var openEntityList = document.getElementById("button-allContacts");
 	  	var enterForSearchEntity = document.getElementById("searchForm");
+	  	var logOutButton = document.getElementById("button-LogOut");
 	  	if (createContactButton) {
 	  		createContactButton.addEventListener("click", createEntity);
 	  	}
@@ -26,7 +27,50 @@
 	  			if (e.key === "Enter") searchEntity(); 
 	  		});
 	  	}
-	  });
+	  	if (logOutButton) {
+	  		logOutButton.addEventListener("click", SignOut);
+	  	// 	logOutButton.addEventListener("click", function () {
+	  	// 		var leavePageScript = ''
+    //     + 'var iframe = document.getElementById("mySlide");'
+    //     + 'iframe.src = chrome.extension.getURL("ui/popupAuth.html");'
+    // chrome.tabs.executeScript({
+    //     code: leavePageScript
+    // });
+	  	// 	});
+	  	// }
+	  }
+	});
+
+	  function SignOut() {
+	  	$.ajax({
+	  		type: "POST",
+	  		url: 'http://localhost:56623/Home/SignOut',
+	  		contentType: 'application/json;',
+	  		processData: false,
+	  		data: JSON.stringify({ shortNumber: sessionStorage.shortNumber}),
+	  		success: function (result) {
+
+	  			if (result == "all right") {
+	  				sessionStorage.shortNumber = '';
+	  				openPage();
+	  			} else {
+
+
+	  			}},
+	  			error: function (xhr, status, p3) {
+
+	  			}
+	  		});
+	  }
+	  function openPage() {
+	  	var leavePageScript = ''
+	  	+ 'var iframe = document.getElementById("mySlide");'
+	  	+ 'iframe.src = chrome.extension.getURL("ui/popupAuth.html");'
+	  	+ 'sessionStorage.shortNumber = "";' 
+	  	chrome.tabs.executeScript({
+	  		code: leavePageScript
+	  	});
+	  }
 
 	  function searchEntity() {
 	  	var resultTable = document.getElementById("prokrutkaid");
@@ -36,6 +80,7 @@
 	  	var inputLine = document.getElementById("searchForm");
 	  	if (!inputLine && inputLine.value.length == 0) return;
 	  	var config = JSON.parse(sessionStorage.config);
+	  	if (!config && config == 'undefined') return;
 	  	var searchField = defineField(inputLine.value, config);
 	  	var filterParam = getFilterParam(searchField, inputLine.value);
 	  	var entities = new Array();
@@ -96,7 +141,7 @@
 
 	  function openEntityTestFunc(id) {
 	  	var config = JSON.parse(sessionStorage.config);
-	  	if (config) {
+	  	if (config && config != 'undefined') {
 	  		var url = config.Address + "main.aspx?etn=" + config.FindEntityRecord + "&id={" + id + "}&pagetype=entityrecord";
 	  		window.open(url, "_blank"); 
 	  	}
@@ -153,7 +198,7 @@
 
 	  function openEntityListFunc() {
 	  	var config = JSON.parse(sessionStorage.config);
-	  	if (config) {
+	  	if (config && config != 'undefined') {
 	  		var url = config.Address+"main.aspx?etn=" + config.FindEntityRecord + "&pagetype=entitylist&viewid=%7b00000000-0000-0000-00AA-000010003006%7d&viewtype=1039";
 	  		window.open(url, "_blank"); 
 	  	}
@@ -161,7 +206,7 @@
 
 	  function createEntity() {
 	  	var config = JSON.parse(sessionStorage.config);
-	  	if (config) {
+	  	if (config && config != 'undefined') {
 	  		var url = config.Address+"main.aspx?etn=" + config.FindEntityRecord + "&pagetype=entityrecord";
 	  		window.open(url, "_blank"); 
 	  	}
@@ -184,8 +229,8 @@
 	  		}
 	  	}
 	  	try {
-	  	xhr.send(null);
-	  } catch (e) {var bkg = chrome.extension.getBackgroundPage();
-            bkg.console.log(e);
-	  }
+	  		xhr.send(null);
+	  	} catch (e) {var bkg = chrome.extension.getBackgroundPage();
+	  		bkg.console.log(e);
+	  	}
 	  }

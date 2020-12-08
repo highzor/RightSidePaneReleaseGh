@@ -3,7 +3,7 @@
     "name" : "GMCS CRM",
     "description" : "Расширения для CRM",
     "version" : "1.0",
-	"web_accessible_resources": ["ui/popup.html", "/*"],
+	"web_accessible_resources": ["ui/popup.html", "/*", "ui/popupAuth.html"],
     "browser_action": {
         "default_title" : "GMCS CRM",
         "default_icon" : "img/icon.png"
@@ -13,7 +13,10 @@
 	    "scripts":["js/background.js", "js/content-script.js"]
 	},
 	"permissions": [
-	"tabs" 
+	"tabs",
+        "notifications",
+		"<all_urls>",
+		"activeTab"
   ],
 	"content_scripts": [ {
       "js": [ "js/content-script.js", "js/inject.js", "js/inject2.js"],
