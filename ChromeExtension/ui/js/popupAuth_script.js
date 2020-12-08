@@ -45,10 +45,10 @@ document.getElementById("exampleInputPhoneNumber").addEventListener("keypress", 
 
   function errorItemFunc(result) {
 
-  	let elem = document.createElement("p");
+  	var elem = document.createElement("p");
   	elem.style.color = 'red';
   	elem.appendChild(document.createTextNode('Error: ' + result));
-  	let firstElem = document.getElementById("errordiv");
-  	if (firstElem.childElementCount > 0) firstElem.replaceChildren();
+  	var firstElem = document.getElementById("errordiv");
+  	if (firstElem && firstElem.childElementCount > 0) firstElem.replaceChildren();
   	firstElem.appendChild(elem);
   }

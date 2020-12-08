@@ -13,6 +13,7 @@
 	  	var openEntityList = document.getElementById("button-allContacts");
 	  	var enterForSearchEntity = document.getElementById("searchForm");
 	  	var logOutButton = document.getElementById("button-LogOut");
+	  	var TESTButton = document.getElementById("button-TEST");
 	  	if (createContactButton) {
 	  		createContactButton.addEventListener("click", createEntity);
 	  	}
@@ -29,6 +30,17 @@
 	  	}
 	  	if (logOutButton) {
 	  		logOutButton.addEventListener("click", SignOut);
+	  	}
+	  	if (TESTButton) {
+	  		TESTButton.addEventListener("click", function () {
+	  			var changePageScript = ''
+	  	+ 'var iframe = document.getElementById("mySlide");'
+	  	+ 'iframe.src = chrome.extension.getURL("ui/popupPhone.html");'
+	  	+ 'sessionStorage.shortNumber = "";' 
+	  	chrome.tabs.executeScript({
+	  		code: changePageScript
+	  	});
+	  		});
 	  	}
 	  });
 
