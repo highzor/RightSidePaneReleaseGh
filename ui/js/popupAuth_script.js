@@ -9,25 +9,6 @@ document.addEventListener("DOMContentLoaded", function (dcle) {
 	});
 });
 
-   //      hubConnection.on("Pend", function (data) {
-
-   //          let elem = document.createElement("p");
-   //          elem.appendChild(document.createTextNode(data));
-   //          let firstElem = document.getElementById("chatroom").firstChild;
-   //          document.getElementById("chatroom").insertBefore(elem, firstElem);
-
-   //      });
-
-   //      document.getElementById("button-signIn").addEventListener("click", function (e) {
-   //          let message = document.getElementById("exampleInputPhoneNumber").value;
-   //          hubConnection.invoke("Pend", message);
-   //      });
-
-   //      hubConnection.start();
-
-	  // });
-
-
 	  function SignIn() {
 	  	$.ajax({
 	  		type: "POST",

@@ -94,10 +94,5 @@ namespace ServiceCRM.Models
             }
             return "no matches for the entered number";
         }
-        //private void ChangeFieldValue(IOrganizationService service, Entity itemEntity)
-        //{
-        //    itemEntity.Attributes["new_authenticated"] = true;
-        //    service.Update(itemEntity);
-        //}
     }
 }
