@@ -45,5 +45,9 @@ namespace ServiceCRM.Controllers
                 return Json(result);
             }
         }
+        public ActionResult Crm()
+        {
+            return View();
+        }
     }
 }
