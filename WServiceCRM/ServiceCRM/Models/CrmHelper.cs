@@ -1,4 +1,4 @@
-﻿using Microsoft.Xrm.Sdk;
+using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Client;
 using Microsoft.Xrm.Sdk.Query;
 using System;
@@ -112,7 +112,6 @@ namespace ServiceCRM.Models
             Entity From = new Entity("activityparty");
             attributesValues.Add("partyid", new EntityReference("systemuser", new Guid("9344DC04-8804-EB11-B810-005056964201")));
             From = SetAttributesDict<Entity>(null, From);
-            //From["partyid"] = new EntityReference("systemuser", new Guid("9344DC04-8804-EB11-B810-005056964201")); // Need to replace with Guid
             Entity phoneCallEntity = new Entity("phonecall");
             attributesValues.Add("subject", "Звонок: " + callId);
             attributesValues.Add("description", "Звонок с абонентом: " + caller);
@@ -121,14 +120,12 @@ namespace ServiceCRM.Models
             attributesValues.Add("phonenumber", caller);
             attributesValues.Add("from", new Entity[] { From });
             phoneCallEntity = SetAttributesDict<Entity>(null, phoneCallEntity);
-            //phoneCallEntity["from"] = new Entity[] { From };
             Entity[] entityArray = new Entity[entites.Entities.Count];
             for (int i = 0; i < entites.Entities.Count; i++)
             {
                 attributesValues.Add("partyid", new EntityReference("contact", new Guid(entites.Entities[i].Attributes["contactid"].ToString())));
                 Entity toContact = new Entity("activityparty");
                 toContact = SetAttributesDict<Entity>(null, toContact);
-                // toContact["partyid"] = new EntityReference("contact", new Guid(entites.Entities[i].Attributes["contactid"].ToString()));
                 entityArray[i] = toContact;
             }
             attributesValues.Add("to", entityArray);
@@ -197,7 +194,6 @@ namespace ServiceCRM.Models
             }
             return "no matches for the entered number";
         }
-<<<<<<< HEAD
         private T SetAttributesDict<T>(EntityCollection entites = null, Entity entity = null)
         {
             if (entites != null)
@@ -232,7 +228,5 @@ namespace ServiceCRM.Models
                 return (T)Convert.ChangeType(objEntities, typeof(T));
             }
         }
-=======
->>>>>>> 3f1ef927c5f2874b89f474aa4915b592fb660026
     }
 }
