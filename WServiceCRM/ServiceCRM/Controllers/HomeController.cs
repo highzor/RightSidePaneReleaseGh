@@ -1,4 +1,5 @@
-﻿using ServiceCRM.Models;
+﻿using Microsoft.AspNet.SignalR;
+using ServiceCRM.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,11 +31,11 @@ namespace ServiceCRM.Controllers
         public JsonResult SignIn(string inputNumber)
         {
             string result = "";
-                using (CrmHelper crm = new CrmHelper())
-                {
-                    result = crm.StartsWork(inputNumber);
-                    return Json(result);
-                }
+            using (CrmHelper crm = new CrmHelper())
+            {
+                result = crm.StartsWork(inputNumber);
+                return Json(result);
+            }
         }
         public JsonResult SignOut(string shortNumber)
         {
@@ -45,9 +46,48 @@ namespace ServiceCRM.Controllers
                 return Json(result);
             }
         }
-        public ActionResult Crm()
+        public void Crm(string name, string message)
         {
-            return View();
+            var context = GlobalHost.ConnectionManager.GetHubContext<CrmHub>();
+
+            //context.Clients.All.addNewMessageToPage(name, message);
+            // or
+            //context.Clients.Group("groupname").methodInJavascript("hello world");
+        }
+        public JsonResult IncomingCall(string callId, DateTime callDate, string caller)
+        {
+            using (CrmHelper crm = new CrmHelper())
+            {
+                string result = crm.IncommingCall(callId, callDate, caller);
+                return Json(result);
+            }
+        }
+        public void CompleteCall(string callId, DateTime completeDate, string reason)
+        {
+            using (CrmHelper crm = new CrmHelper())
+            {
+                crm.CompleteCall(callId, completeDate, reason);
+            }
+        }
+        public JsonResult Summary(string callId)
+        {
+            using (CrmHelper crm = new CrmHelper())
+            {
+
+                return Json(crm.Summary(callId), JsonRequestBehavior.AllowGet);
+            }
+        }
+        public JsonResult Answer(string callId)
+        {
+            using (CrmHelper crm = new CrmHelper())
+            {
+                string result = crm.Answer(callId);
+                return Json(result);
+            }
+        }
+        public JsonResult Deny(string callId)
+        {
+            return Json("Вызов сброшен без ответа");
         }
     }
 }

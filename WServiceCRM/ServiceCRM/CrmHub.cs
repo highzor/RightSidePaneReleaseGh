@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using Microsoft.AspNet.SignalR;
+using ServiceCRM.Models;
 
 namespace ServiceCRM
 {
@@ -18,12 +19,12 @@ namespace ServiceCRM
             string connectionId = Context.ConnectionId;
             Clients.All.addNewMessageToPage(name, message);
         }
+
         public override Task OnConnected()
         {
             string connectionId = Context.ConnectionId;
             // Store this connectionId in list -- This will be helpful for tracking list of connected clients.
             return base.OnConnected();
-            
         }
         public override Task OnDisconnected(bool stopCalled)
         {
