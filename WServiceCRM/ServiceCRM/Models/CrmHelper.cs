@@ -162,9 +162,9 @@ namespace ServiceCRM.Models
         {
             IOrganizationService service = null;
             ClientCredentials clientCredentials = new ClientCredentials();
-            clientCredentials.UserName.UserName = "apetukhov";
-            clientCredentials.UserName.Password = "12Qwerty";
-            service = (IOrganizationService)new OrganizationServiceProxy(new Uri("http://10.40.10.146/LearnAPetukhov/XRMServices/2011/Organization.svc"),
+            clientCredentials.UserName.UserName = "username";
+            clientCredentials.UserName.Password = "password";
+            service = (IOrganizationService)new OrganizationServiceProxy(new Uri("http://XX.XX.XX.XXX/LearnAPetukhov/XRMServices/2011/Organization.svc"),
              null, clientCredentials, null);
             return service;
         }
@@ -197,6 +197,7 @@ namespace ServiceCRM.Models
             }
             return "no matches for the entered number";
         }
+<<<<<<< HEAD
         private T SetAttributesDict<T>(EntityCollection entites = null, Entity entity = null)
         {
             if (entites != null)
@@ -231,5 +232,7 @@ namespace ServiceCRM.Models
                 return (T)Convert.ChangeType(objEntities, typeof(T));
             }
         }
+=======
+>>>>>>> 3f1ef927c5f2874b89f474aa4915b592fb660026
     }
 }
