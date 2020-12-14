@@ -49,10 +49,6 @@ namespace ServiceCRM.Controllers
         public void Crm(string name, string message)
         {
             var context = GlobalHost.ConnectionManager.GetHubContext<CrmHub>();
-
-            //context.Clients.All.addNewMessageToPage(name, message);
-            // or
-            //context.Clients.Group("groupname").methodInJavascript("hello world");
         }
         public JsonResult IncomingCall(string callId, DateTime callDate, string caller)
         {
@@ -73,8 +69,6 @@ namespace ServiceCRM.Controllers
         {
             using (CrmHelper crm = new CrmHelper())
             {
-
-                // return Json(crm.Summary(callId), JsonRequestBehavior.AllowGet);
                 string result = crm.Summary(callId);
                 return result;
             }
