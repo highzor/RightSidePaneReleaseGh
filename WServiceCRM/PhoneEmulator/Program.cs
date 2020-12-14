@@ -155,27 +155,11 @@ namespace PhoneEmulator
         }
         static string Summary()
         {
-            string result = "";
-            string postParameters = "{'callId' : '" + callId + "'}";
-            var httpRequest = (HttpWebRequest)WebRequest.Create("http://localhost:56623/home/summary");
-            httpRequest.Method = "POST";
-            httpRequest.ContentType = "application/json";
-            using (var requestStream = httpRequest.GetRequestStream())
-            using (var writer = new StreamWriter(requestStream))
+            using (var webClient = new WebClient())
             {
-                writer.Write(postParameters);
+                string result = webClient.DownloadString($"http://localhost:56623/home/summary?callId={callId}");
+                return result;
             }
-            using (var httpResponse = httpRequest.GetResponse())
-            {
-                using (Stream stream = httpResponse.GetResponseStream())
-                {
-                    using (StreamReader reader = new StreamReader(stream))
-                    {
-                        result = reader.ReadToEnd();
-                    }
-                }
-            }
-            return result;
         }
     }
 }
