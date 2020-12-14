@@ -1,4 +1,4 @@
-using Microsoft.Xrm.Sdk;
+﻿using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Client;
 using Microsoft.Xrm.Sdk.Query;
 using System;
@@ -86,9 +86,10 @@ namespace ServiceCRM.Models
         {
             IOrganizationService service = ConnectToCRM();
             EntityCollection entites = GetEntities(service, true, "phonecall", "new_callid", callId);
-            string tst = entites.Entities.First().Attributes.Keys.ToString();
-
-            return "";
+            //string tst = entites.Entities.First().Attributes.Keys.ToString();
+            string serialize = JsonConvert.SerializeObject(entites.Entities.First().Attributes);
+            string result = serialize.Substring(1, serialize.Length - 2);
+            return result;
         }
 
         public string Answer(string callId)
@@ -112,6 +113,7 @@ namespace ServiceCRM.Models
             Entity From = new Entity("activityparty");
             attributesValues.Add("partyid", new EntityReference("systemuser", new Guid("9344DC04-8804-EB11-B810-005056964201")));
             From = SetAttributesDict<Entity>(null, From);
+            //From["partyid"] = new EntityReference("systemuser", new Guid("9344DC04-8804-EB11-B810-005056964201")); // Need to replace with Guid
             Entity phoneCallEntity = new Entity("phonecall");
             attributesValues.Add("subject", "Звонок: " + callId);
             attributesValues.Add("description", "Звонок с абонентом: " + caller);
@@ -120,14 +122,19 @@ namespace ServiceCRM.Models
             attributesValues.Add("phonenumber", caller);
             attributesValues.Add("from", new Entity[] { From });
             phoneCallEntity = SetAttributesDict<Entity>(null, phoneCallEntity);
+            //phoneCallEntity["from"] = new Entity[] { From };
             Entity[] entityArray = new Entity[entites.Entities.Count];
+            string shortNumbers = "";
             for (int i = 0; i < entites.Entities.Count; i++)
             {
                 attributesValues.Add("partyid", new EntityReference("contact", new Guid(entites.Entities[i].Attributes["contactid"].ToString())));
                 Entity toContact = new Entity("activityparty");
+                shortNumbers += entites.Entities[i].Attributes["fullname"].ToString() + " ("+entites.Entities[i].Attributes["new_shortnumber"].ToString()+"); ";
                 toContact = SetAttributesDict<Entity>(null, toContact);
+                // toContact["partyid"] = new EntityReference("contact", new Guid(entites.Entities[i].Attributes["contactid"].ToString()));
                 entityArray[i] = toContact;
             }
+            attributesValues.Add("new_shortnums", shortNumbers);
             attributesValues.Add("to", entityArray);
             phoneCallEntity = SetAttributesDict<Entity>(null, phoneCallEntity);
             Guid phonecallId = service.Create(phoneCallEntity);
@@ -159,9 +166,9 @@ namespace ServiceCRM.Models
         {
             IOrganizationService service = null;
             ClientCredentials clientCredentials = new ClientCredentials();
-            clientCredentials.UserName.UserName = "username";
-            clientCredentials.UserName.Password = "password";
-            service = (IOrganizationService)new OrganizationServiceProxy(new Uri("http://XX.XX.XX.XXX/LearnAPetukhov/XRMServices/2011/Organization.svc"),
+            clientCredentials.UserName.UserName = "apetukhov";
+            clientCredentials.UserName.Password = "12Qwerty";
+            service = (IOrganizationService)new OrganizationServiceProxy(new Uri("http://10.40.10.146/LearnAPetukhov/XRMServices/2011/Organization.svc"),
              null, clientCredentials, null);
             return service;
         }

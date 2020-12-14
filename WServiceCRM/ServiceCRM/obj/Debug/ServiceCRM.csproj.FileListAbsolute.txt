@@ -107,3 +107,4 @@ C:\Users\apetukhov\source\repos\ServiceCRM\ServiceCRM\bin\ru\Microsoft.Owin.Secu
 C:\Users\apetukhov\source\repos\ServiceCRM\ServiceCRM\bin\Microsoft.Owin.Cors.dll
 C:\Users\apetukhov\source\repos\ServiceCRM\ServiceCRM\bin\System.Web.Cors.dll
 C:\Users\apetukhov\source\repos\ServiceCRM\ServiceCRM\bin\Microsoft.Owin.Cors.xml
+C:\Users\apetukhov\source\repos\ServiceCRM\ServiceCRM\bin\Innofactor.Xrm.Json.Serialization.dll

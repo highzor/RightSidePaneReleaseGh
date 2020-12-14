@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceCRM", "ServiceCRM\Se
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhoneEmulatorCRM", "PhoneEmulatorCRM\PhoneEmulatorCRM.csproj", "{CC46809E-695D-4D1F-BC0B-04A2189AB73B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhoneEmulator", "PhoneEmulator\PhoneEmulator.csproj", "{5BE03973-AE99-4A0F-AD18-AE592AA13020}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{CC46809E-695D-4D1F-BC0B-04A2189AB73B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CC46809E-695D-4D1F-BC0B-04A2189AB73B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CC46809E-695D-4D1F-BC0B-04A2189AB73B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5BE03973-AE99-4A0F-AD18-AE592AA13020}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5BE03973-AE99-4A0F-AD18-AE592AA13020}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5BE03973-AE99-4A0F-AD18-AE592AA13020}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5BE03973-AE99-4A0F-AD18-AE592AA13020}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

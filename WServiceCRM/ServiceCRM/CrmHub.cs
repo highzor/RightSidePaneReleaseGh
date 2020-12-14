@@ -23,11 +23,15 @@ namespace ServiceCRM
         public override Task OnConnected()
         {
             string connectionId = Context.ConnectionId;
+            // Store this connectionId in list -- This will be helpful for tracking list of connected clients.
             return base.OnConnected();
         }
         public override Task OnDisconnected(bool stopCalled)
         {
             string connectionId = Context.ConnectionId;
+            // Remove this connectionId from list
+            // and save the message for disconnected clients.
+            // Maintain list of disconnected clients in a list, say ABC
            return base.OnDisconnected(stopCalled);
         }
     }

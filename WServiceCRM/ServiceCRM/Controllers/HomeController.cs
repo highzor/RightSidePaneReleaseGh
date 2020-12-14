@@ -49,6 +49,10 @@ namespace ServiceCRM.Controllers
         public void Crm(string name, string message)
         {
             var context = GlobalHost.ConnectionManager.GetHubContext<CrmHub>();
+
+            //context.Clients.All.addNewMessageToPage(name, message);
+            // or
+            //context.Clients.Group("groupname").methodInJavascript("hello world");
         }
         public JsonResult IncomingCall(string callId, DateTime callDate, string caller)
         {
@@ -58,19 +62,21 @@ namespace ServiceCRM.Controllers
                 return Json(result);
             }
         }
-        public void CompleteCall(string callId, DateTime completeDate, string reason)
+        public JsonResult CompleteCall(string callId, DateTime completeDate, string reason)
         {
             using (CrmHelper crm = new CrmHelper())
             {
-                crm.CompleteCall(callId, completeDate, reason);
+                return Json(crm.CompleteCall(callId, completeDate, reason));
             }
         }
-        public JsonResult Summary(string callId)
+        public string Summary(string callId)
         {
             using (CrmHelper crm = new CrmHelper())
             {
 
-                return Json(crm.Summary(callId), JsonRequestBehavior.AllowGet);
+                // return Json(crm.Summary(callId), JsonRequestBehavior.AllowGet);
+                string result = crm.Summary(callId);
+                return result;
             }
         }
         public JsonResult Answer(string callId)
