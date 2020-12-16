@@ -1,20 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
+
 
 namespace PhoneEmulator
 {
     class Program
     {
-        static string callId = "1343";
-        static string callDate = "14.12.2020";
-        static string completeDate = "14.12.2020";
-        static string caller = "+7(495)133-33-37";
+        static string callId = "1344";
+        static string callDate = new DateTime(2020, 12, 16).ToString();
+        static string completeDate = new DateTime(2020, 12, 16).ToString();
+        static string caller = "%2B7(495)133-33-37";
         static string reason = "Easy reason";
 
         static void Main(string[] args)
@@ -60,15 +56,10 @@ namespace PhoneEmulator
         static string IncommingCall()
         {
             string result = "";
-            string postParameters = "{'callId' : '"+callId+"', 'callDate' : '"+callDate+"', 'caller' : '"+caller+"'}";
-            var httpRequest = (HttpWebRequest)WebRequest.Create("http://localhost:56623/home/incomingcall");
+            var httpRequest = (HttpWebRequest)WebRequest.Create($"http://localhost:56623/home/incomingcall?callId={callId}&callDate={callDate}&caller={caller}");
             httpRequest.Method = "POST";
+            httpRequest.ContentLength = 0;
             httpRequest.ContentType = "application/json";
-            using (var requestStream = httpRequest.GetRequestStream())
-            using (var writer = new StreamWriter(requestStream))
-            {
-                writer.Write(postParameters);
-            }
             using (var httpResponse = httpRequest.GetResponse())
             {
                 using (Stream stream = httpResponse.GetResponseStream())
@@ -84,15 +75,10 @@ namespace PhoneEmulator
         static string CompleteCall()
         {
             string result = "";
-            string postParameters = "{'callId' : '"+callId+"', 'completeDate' : '"+completeDate+"', 'reason' : '"+reason+"'}";
-            var httpRequest = (HttpWebRequest)WebRequest.Create("http://localhost:56623/home/completecall");
+            var httpRequest = (HttpWebRequest)WebRequest.Create($"http://localhost:56623/home/completecall?callId={callId}&completeDate={completeDate}&reason={reason}");
             httpRequest.Method = "POST";
+            httpRequest.ContentLength = 0;
             httpRequest.ContentType = "application/json";
-            using (var requestStream = httpRequest.GetRequestStream())
-            using (var writer = new StreamWriter(requestStream))
-            {
-                writer.Write(postParameters);
-            }
             using (var httpResponse = httpRequest.GetResponse())
             {
                 using (Stream stream = httpResponse.GetResponseStream())
@@ -108,15 +94,10 @@ namespace PhoneEmulator
         static string Answer()
         {
             string result = "";
-            string postParameters = "{'callId' : '"+callId+"'}";
-            var httpRequest = (HttpWebRequest)WebRequest.Create("http://localhost:56623/home/answer");
+            var httpRequest = (HttpWebRequest)WebRequest.Create($"http://localhost:56623/home/answer?callId={callId}");
             httpRequest.Method = "POST";
+            httpRequest.ContentLength = 0;
             httpRequest.ContentType = "application/json";
-            using (var requestStream = httpRequest.GetRequestStream())
-            using (var writer = new StreamWriter(requestStream))
-            {
-                writer.Write(postParameters);
-            }
             using (var httpResponse = httpRequest.GetResponse())
             {
                 using (Stream stream = httpResponse.GetResponseStream())
@@ -132,15 +113,10 @@ namespace PhoneEmulator
         static string Deny()
         {
             string result = "";
-            string postParameters = "{'callId' : '" + callId + "'}";
-            var httpRequest = (HttpWebRequest)WebRequest.Create("http://localhost:56623/home/deny");
+            var httpRequest = (HttpWebRequest)WebRequest.Create($"http://localhost:56623/home/deny?callId={callId}");
             httpRequest.Method = "POST";
+            httpRequest.ContentLength = 0;
             httpRequest.ContentType = "application/json";
-            using (var requestStream = httpRequest.GetRequestStream())
-            using (var writer = new StreamWriter(requestStream))
-            {
-                writer.Write(postParameters);
-            }
             using (var httpResponse = httpRequest.GetResponse())
             {
                 using (Stream stream = httpResponse.GetResponseStream())
@@ -155,27 +131,11 @@ namespace PhoneEmulator
         }
         static string Summary()
         {
-            string result = "";
-            string postParameters = "{'callId' : '" + callId + "'}";
-            var httpRequest = (HttpWebRequest)WebRequest.Create("http://localhost:56623/home/summary");
-            httpRequest.Method = "POST";
-            httpRequest.ContentType = "application/json";
-            using (var requestStream = httpRequest.GetRequestStream())
-            using (var writer = new StreamWriter(requestStream))
+            using (var webClient = new WebClient())
             {
-                writer.Write(postParameters);
+                string result = webClient.DownloadString($"http://localhost:56623/home/summary?callId={callId}");
+                return result;
             }
-            using (var httpResponse = httpRequest.GetResponse())
-            {
-                using (Stream stream = httpResponse.GetResponseStream())
-                {
-                    using (StreamReader reader = new StreamReader(stream))
-                    {
-                        result = reader.ReadToEnd();
-                    }
-                }
-            }
-            return result;
         }
     }
 }

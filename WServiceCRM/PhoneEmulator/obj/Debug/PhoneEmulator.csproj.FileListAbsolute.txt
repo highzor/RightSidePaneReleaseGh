@@ -8,3 +8,5 @@ C:\Users\apetukhov\source\repos\ServiceCRM\PhoneEmulator\obj\Debug\PhoneEmulator
 C:\Users\apetukhov\source\repos\ServiceCRM\PhoneEmulator\bin\Debug\Newtonsoft.Json.dll
 C:\Users\apetukhov\source\repos\ServiceCRM\PhoneEmulator\bin\Debug\Newtonsoft.Json.xml
 C:\Users\apetukhov\source\repos\ServiceCRM\PhoneEmulator\obj\Debug\PhoneEmulator.csproj.CopyComplete
+C:\Users\apetukhov\source\repos\ServiceCRM\PhoneEmulator\bin\Debug\RestSharp.dll
+C:\Users\apetukhov\source\repos\ServiceCRM\PhoneEmulator\bin\Debug\RestSharp.xml

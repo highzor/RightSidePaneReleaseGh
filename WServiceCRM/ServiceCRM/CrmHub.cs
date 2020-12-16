@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using Microsoft.AspNet.SignalR;
-using ServiceCRM.Models;
+using ServiceCRM.Helpers;
 
 namespace ServiceCRM
 {
@@ -20,6 +17,24 @@ namespace ServiceCRM
             Clients.All.addNewMessageToPage(name, message);
         }
 
+        public void SignIn(string inputNumber)
+        {
+            CrmHelper crm = new CrmHelper();
+
+            Guid connectionId = new Guid(Context.ConnectionId);
+            string result = crm.LogIn(inputNumber, connectionId);
+            if (result.Equals("all right"))
+            {
+                Clients.Client(Context.ConnectionId).SignIn();
+                //Client(Context.ConnectionId)
+            }
+            else
+            {
+                Clients.Client(Context.ConnectionId).addErrorMessage(result);
+            }
+
+        }
+
         public override Task OnConnected()
         {
             string connectionId = Context.ConnectionId;
@@ -32,7 +47,7 @@ namespace ServiceCRM
             // Remove this connectionId from list
             // and save the message for disconnected clients.
             // Maintain list of disconnected clients in a list, say ABC
-           return base.OnDisconnected(stopCalled);
+            return base.OnDisconnected(stopCalled);
         }
     }
 }

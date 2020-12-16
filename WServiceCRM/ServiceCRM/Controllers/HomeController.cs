@@ -1,91 +1,55 @@
-﻿using Microsoft.AspNet.SignalR;
-using ServiceCRM.Models;
+﻿using ServiceCRM.Helpers;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace ServiceCRM.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index()
+        public JsonResult LogIn(string inputNumber)
         {
-            return View();
+            CrmHelper crm = new CrmHelper();
+            string result = crm.LogIn(inputNumber);
+            return Json(result);
         }
-
-        public ActionResult About()
+        public JsonResult LogOff(string inputNumber)
         {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
+            CrmHelper crm = new CrmHelper();
+            string result = crm.LogOff(inputNumber);
+            return Json(result);
         }
-
-        public ActionResult Contact()
+        //public void Crm(string name, string message)
+        //{
+        //    var context = GlobalHost.ConnectionManager.GetHubContext<CrmHub>();
+        //    context.Clients.All.addNewMessageToPage(name, message);
+        //    or
+        //    context.Clients.Group("groupname").methodInJavascript("hello world");
+        //}
+        public JsonResult IncomingCall(string callId, string callDate, string caller)
         {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
+            DateTime date = DateTime.Parse(callDate);
+            CrmHelper crm = new CrmHelper();
+            string result = crm.IncommingCall(callId, date, caller);
+            return Json(result);
         }
-        public JsonResult SignIn(string inputNumber)
+        public JsonResult CompleteCall(string callId, string completeDate, string reason)
         {
-            string result = "";
-            using (CrmHelper crm = new CrmHelper())
-            {
-                result = crm.StartsWork(inputNumber);
-                return Json(result);
-            }
-        }
-        public JsonResult SignOut(string shortNumber)
-        {
-            string result = "";
-            using (CrmHelper crm = new CrmHelper())
-            {
-                result = crm.StopsWork(shortNumber);
-                return Json(result);
-            }
-        }
-        public void Crm(string name, string message)
-        {
-            var context = GlobalHost.ConnectionManager.GetHubContext<CrmHub>();
-
-            //context.Clients.All.addNewMessageToPage(name, message);
-            // or
-            //context.Clients.Group("groupname").methodInJavascript("hello world");
-        }
-        public JsonResult IncomingCall(string callId, DateTime callDate, string caller)
-        {
-            using (CrmHelper crm = new CrmHelper())
-            {
-                string result = crm.IncommingCall(callId, callDate, caller);
-                return Json(result);
-            }
-        }
-        public JsonResult CompleteCall(string callId, DateTime completeDate, string reason)
-        {
-            using (CrmHelper crm = new CrmHelper())
-            {
-                return Json(crm.CompleteCall(callId, completeDate, reason));
-            }
+            DateTime date = DateTime.Parse(completeDate);
+            CrmHelper crm = new CrmHelper();
+            string result = crm.CompleteCall(callId, date, reason);
+            return Json(result);
         }
         public string Summary(string callId)
         {
-            using (CrmHelper crm = new CrmHelper())
-            {
-
-                // return Json(crm.Summary(callId), JsonRequestBehavior.AllowGet);
-                string result = crm.Summary(callId);
-                return result;
-            }
+            CrmHelper crm = new CrmHelper();
+            string result = crm.Summary(callId);
+            return result;
         }
         public JsonResult Answer(string callId)
         {
-            using (CrmHelper crm = new CrmHelper())
-            {
-                string result = crm.Answer(callId);
-                return Json(result);
-            }
+            CrmHelper crm = new CrmHelper();
+            string result = crm.Answer(callId);
+            return Json(result);
         }
         public JsonResult Deny(string callId)
         {
