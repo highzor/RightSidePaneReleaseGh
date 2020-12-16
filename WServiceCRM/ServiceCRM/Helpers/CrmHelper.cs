@@ -133,13 +133,6 @@ namespace ServiceCRM.Helpers
             phoneCallEntity["new_callid"] = callId;
             phoneCallEntity["new_calldate"] = callDate;
             phoneCallEntity["phonenumber"] = caller;
-            //Entity[] entityArray = new Entity[entites.Entities.Count];
-            //for (int i = 0; i < entites.Entities.Count; i++)
-            //{
-            //    Entity From = new Entity("activityparty");
-            //    From["partyid"] = new EntityReference("contact", new Guid(entites.Entities[i].Attributes["contactid"].ToString()));
-            //    entityArray[i] = From;
-            //}
             service.Create(phoneCallEntity);
         }
         private EntityCollection GetEntities(IOrganizationService service, string entity, string attribute = "", string value = "")
@@ -169,9 +162,9 @@ namespace ServiceCRM.Helpers
         {
             IOrganizationService service = null;
             ClientCredentials clientCredentials = new ClientCredentials();
-            clientCredentials.UserName.UserName = "apetukhov";
-            clientCredentials.UserName.Password = "12Qwerty";
-            service = (IOrganizationService)new OrganizationServiceProxy(new Uri("http://10.40.10.146/LearnAPetukhov/XRMServices/2011/Organization.svc"),
+            clientCredentials.UserName.UserName = "user";
+            clientCredentials.UserName.Password = "password";
+            service = (IOrganizationService)new OrganizationServiceProxy(new Uri("http://XX.XX.XX.XXX/LearnAPetukhov/XRMServices/2011/Organization.svc"),
              null, clientCredentials, null);
             return service;
         }
