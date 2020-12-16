@@ -27,14 +27,10 @@ namespace ServiceCRM.Controllers
         //}
         public JsonResult IncomingCall(string callId, string callDate, string caller)
         {
-<<<<<<< HEAD
             DateTime date = DateTime.Parse(callDate);
             CrmHelper crm = new CrmHelper();
             string result = crm.IncommingCall(callId, date, caller);
             return Json(result);
-=======
-            var context = GlobalHost.ConnectionManager.GetHubContext<CrmHub>();
->>>>>>> 1b226b35e30f7e535d5c8de287135b4d0bb9c7d0
         }
         public JsonResult CompleteCall(string callId, string completeDate, string reason)
         {
@@ -45,17 +41,9 @@ namespace ServiceCRM.Controllers
         }
         public string Summary(string callId)
         {
-<<<<<<< HEAD
             CrmHelper crm = new CrmHelper();
             string result = crm.Summary(callId);
             return result;
-=======
-            using (CrmHelper crm = new CrmHelper())
-            {
-                string result = crm.Summary(callId);
-                return result;
-            }
->>>>>>> 1b226b35e30f7e535d5c8de287135b4d0bb9c7d0
         }
         public JsonResult Answer(string callId)
         {
