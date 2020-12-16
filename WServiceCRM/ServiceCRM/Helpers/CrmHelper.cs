@@ -133,13 +133,6 @@ namespace ServiceCRM.Helpers
             phoneCallEntity["new_callid"] = callId;
             phoneCallEntity["new_calldate"] = callDate;
             phoneCallEntity["phonenumber"] = caller;
-            //Entity[] entityArray = new Entity[entites.Entities.Count];
-            //for (int i = 0; i < entites.Entities.Count; i++)
-            //{
-            //    Entity From = new Entity("activityparty");
-            //    From["partyid"] = new EntityReference("contact", new Guid(entites.Entities[i].Attributes["contactid"].ToString()));
-            //    entityArray[i] = From;
-            //}
             service.Create(phoneCallEntity);
         }
         private EntityCollection GetEntities(IOrganizationService service, string entity, string attribute = "", string value = "")
