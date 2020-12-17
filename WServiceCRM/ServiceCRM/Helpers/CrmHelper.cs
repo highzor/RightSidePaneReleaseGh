@@ -81,10 +81,17 @@ namespace ServiceCRM.Helpers
             {
                 IOrganizationService service = ConnectToCRM();
                 Entity entity = GetEntities(service, "phonecall", "new_callid", callId).Entities.FirstOrDefault();
-                entity["actualend"] = completeDate;
-                entity["statecode"] = new OptionSetValue(1);
-                service.Update(entity);
-                return "200";
+                if (entity != null)
+                {
+                    entity["actualend"] = completeDate;
+                    entity["statecode"] = new OptionSetValue(1);
+                    service.Update(entity);
+                    return "200";
+                }
+                else
+                {
+                    return "404";
+                }
             }
             catch (Exception e) { return e.Message; }
         }
@@ -114,9 +121,16 @@ namespace ServiceCRM.Helpers
             {
                 IOrganizationService service = ConnectToCRM();
                 Entity entity = GetEntities(service, "phonecall", "new_callid", callId).Entities.FirstOrDefault();
-                entity["new_answerdate"] = DateTime.Now;
-                service.Update(entity);
-                return "200";
+                if (entity != null)
+                {
+                    entity["new_answerdate"] = DateTime.Now;
+                    service.Update(entity);
+                    return "200";
+                }
+                else
+                {
+                    return "404";
+                }
             }
             catch (Exception e)
             { return e.Message; }
