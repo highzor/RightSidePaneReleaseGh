@@ -18,13 +18,7 @@ namespace ServiceCRM.Controllers
             string result = crm.LogOff(inputNumber);
             return Json(result);
         }
-        //public void Crm(string name, string message)
-        //{
-        //    var context = GlobalHost.ConnectionManager.GetHubContext<CrmHub>();
-        //    context.Clients.All.addNewMessageToPage(name, message);
-        //    or
-        //    context.Clients.Group("groupname").methodInJavascript("hello world");
-        //}
+
         public JsonResult IncomingCall(string callId, string callDate, string caller, string shortNumber)
         {
             DateTime date = DateTime.Parse(callDate);
