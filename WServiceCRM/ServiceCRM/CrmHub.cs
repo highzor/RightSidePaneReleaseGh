@@ -33,17 +33,6 @@ namespace ServiceCRM
                 connectionsList.Add(user);
             }
             return result;
-            //if (result.Equals("200"))
-            //{
-
-            //    //Clients.Client(Context.ConnectionId).SignIn();
-            //    //Client(Context.ConnectionId)
-            //}
-            //else
-            //{
-            //   // Clients.Client(Context.ConnectionId).addErrorMessage(result);
-            //}
-
         }
 
         public string SignOut(string inputNumber)
@@ -105,12 +94,6 @@ namespace ServiceCRM
         }
         public override Task OnReconnected()
         {
-            //string name = Context.User.Identity.Name;
-
-            //if (!_connections.GetConnections(name).Contains(Context.ConnectionId))
-            //{
-            //    _connections.Add(name, Context.ConnectionId);
-            //}
             Guid connectionId = new Guid(Context.ConnectionId);
 
             return base.OnReconnected();
