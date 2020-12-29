@@ -3,9 +3,7 @@ document.addEventListener("DOMContentLoaded", function (dcle) {
  var enterForLogIn = document.getElementById("exampleInputPhoneNumber");
  if (enterForLogIn) {
   enterForLogIn.addEventListener("keydown", function (e) {
-
     if (e.keyCode === 13) {
-  
       e.preventDefault();
       document.getElementById("button-signIn").click();
 
@@ -17,21 +15,17 @@ document.addEventListener("DOMContentLoaded", function (dcle) {
 function signIn() {
   var value = document.getElementById("exampleInputPhoneNumber").value;
   chrome.runtime.sendMessage({method: 'connectSignalR'}, function (response) {
-
     if (response == '200') {
       var count = 0;
       chrome.runtime.sendMessage({inputNumber: value, method: 'signIn'}, function (response) {
         if (response == '200') {
-      
           chrome.storage.sync.set({'shortNumber': value});
           openPage();
         } else {
-      
           errorItemFunc(response);
         }
       });
     } else {
-  
       errorItemFunc(response);
     }
   });

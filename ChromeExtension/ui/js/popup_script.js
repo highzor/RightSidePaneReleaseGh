@@ -48,9 +48,9 @@
 	  	chrome.storage.sync.get('shortNumber', function (item) {
 	  		chrome.runtime.sendMessage({inputNumber: item.shortNumber, method: 'signOut'}, function (response) {
 	  			var lastError = chrome.runtime.lastError;
-			if (lastError) {
-				console.log(lastError.message);
-			}
+	  			if (lastError) {
+	  				console.log(lastError.message);
+	  			}
 	  			if (response !== '200') console.log(response);
 	  			openPage();
 	  		});

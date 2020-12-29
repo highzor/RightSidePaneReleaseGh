@@ -13,9 +13,7 @@ if (topBarCheck) {
    iframe.style.zIndex = "9000000000000000000";
    iframe.style.transition = "all 150ms ease-in-out";
    iframe.frameBorder = "5px";
-   
    chrome.storage.sync.get('shortNumber', function (item) {
-    
     if (item.shortNumber && item.shortNumber.length > 0) {
       iframe.src = chrome.extension.getURL("ui/popup.html");
       document.body.appendChild(iframe);
@@ -59,7 +57,6 @@ function toggle() {
  topBar.style.transition = "all 150ms ease-in-out";
  powerPaneButton.style.transition = "all 150ms ease-in-out";
  powerPaneButton2.style.transition = "all 150ms ease-in-out";
- 
 }
 if (iframe.style.right == "-25%") {
   crmContentPanel.style.top = "130px";
