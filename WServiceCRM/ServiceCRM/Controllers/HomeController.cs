@@ -18,12 +18,24 @@ namespace ServiceCRM.Controllers
             string result = crm.LogOff(inputNumber);
             return Json(result);
         }
-        public JsonResult IncomingCall(string callId, string callDate, string caller)
+        //public void Crm(string name, string message)
+        //{
+        //    var context = GlobalHost.ConnectionManager.GetHubContext<CrmHub>();
+        //    context.Clients.All.addNewMessageToPage(name, message);
+        //    or
+        //    context.Clients.Group("groupname").methodInJavascript("hello world");
+        //}
+        public JsonResult IncomingCall(string callId, string callDate, string caller, string shortNumber)
         {
             DateTime date = DateTime.Parse(callDate);
             CrmHelper crm = new CrmHelper();
-            string result = crm.IncommingCall(callId, date, caller);
-            return Json(result);
+            CallerHepler callerHelper = crm.IncommingCall(callId, date, caller);
+            if (callerHelper.Result.Equals("200"))
+            {
+                CrmHub signalRUser = new CrmHub();
+                callerHelper.Result = signalRUser.IncomingCall(callId, date, callerHelper.PhoneOfCaller, callerHelper.FullName, callerHelper.DateOfBirth, shortNumber);
+            }
+            return Json(callerHelper.Result);
         }
         public JsonResult CompleteCall(string callId, string completeDate, string reason)
         {

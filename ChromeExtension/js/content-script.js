@@ -1,25 +1,29 @@
-  var topBarCheck = window.top.document.querySelector('#navTabGroupDiv');
-  if (topBarCheck) {
-    var iframe = document.getElementById("mySlide");
-    if (!iframe) {
-     iframe = document.createElement('iframe');
-     iframe.style.height = "100%";
-     iframe.style.position = "absolute";
-     iframe.style.top = "0px";
-     iframe.style.right = "-25%";
-     iframe.style.minWidth = "250px";
-     iframe.style.width = "20%";
-     iframe.setAttribute("id", "mySlide");
-     iframe.style.zIndex = "9000000000000000000";
-     iframe.style.transition = "all 150ms ease-in-out";
-     iframe.frameBorder = "5px";
-     if (sessionStorage.shortNumber && sessionStorage.shortNumber.length > 0) {
+var topBarCheck = window.top.document.querySelector('#navTabGroupDiv');
+if (topBarCheck) {
+  var iframe = document.getElementById("mySlide");
+  if (!iframe) {
+   iframe = document.createElement('iframe');
+   iframe.style.height = "100%";
+   iframe.style.position = "absolute";
+   iframe.style.top = "0px";
+   iframe.style.right = "-25%";
+   iframe.style.minWidth = "250px";
+   iframe.style.width = "20%";
+   iframe.setAttribute("id", "mySlide");
+   iframe.style.zIndex = "9000000000000000000";
+   iframe.style.transition = "all 150ms ease-in-out";
+   iframe.frameBorder = "5px";
+   debugger;
+   chrome.storage.sync.get('shortNumber', function (item) {
+    debugger;
+    if (item.shortNumber && item.shortNumber.length > 0) {
       iframe.src = chrome.extension.getURL("ui/popup.html");
       document.body.appendChild(iframe);
     } else {
      iframe.src = chrome.extension.getURL("ui/popupAuth.html");
      document.body.appendChild(iframe);
    }
+ });
  }
 }
 

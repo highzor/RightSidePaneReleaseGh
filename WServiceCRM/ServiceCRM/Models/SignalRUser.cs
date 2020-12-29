@@ -6,5 +6,6 @@ namespace ServiceCRM.Models
     {
         public string UserName { get; set; }
         public Guid ConnectionId { get; set; }
+        public string ShortNumber { get; set; }
     }
 }

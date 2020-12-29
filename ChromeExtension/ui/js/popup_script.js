@@ -29,49 +29,42 @@
 	  		});
 	  	}
 	  	if (logOutButton) {
-	  		logOutButton.addEventListener("click", SignOut);
+	  		logOutButton.addEventListener("click", signOut);
 	  	}
 	  	if (TESTButton) {
 	  		TESTButton.addEventListener("click", function () {
 	  			var changePageScript = ''
-	  	+ 'var iframe = document.getElementById("mySlide");'
-	  	+ 'iframe.src = chrome.extension.getURL("ui/popupPhone.html");'
-	  	+ 'sessionStorage.shortNumber = "";' 
-	  	chrome.tabs.executeScript({
-	  		code: changePageScript
-	  	});
+	  			+ 'var iframe = document.getElementById("mySlide");'
+	  			+ 'iframe.src = chrome.extension.getURL("ui/popupPhone.html");'
+	  			+ 'sessionStorage.shortNumber = "";' 
+	  			chrome.tabs.executeScript({
+	  				code: changePageScript
+	  			});
 	  		});
 	  	}
 	  });
 
-	  function SignOut() {
-	  	$.ajax({
-	  		type: "POST",
-	  		url: 'http://localhost:56623/Home/SignOut',
-	  		contentType: 'application/json;',
-	  		processData: false,
-	  		data: JSON.stringify({ shortNumber: sessionStorage.shortNumber}),
-	  		success: function (result) {
-
-	  			if (result == "all right") {
-	  				sessionStorage.shortNumber = '';
-	  				openPage();
-	  			} else {
-
-
-	  			}},
-	  			error: function (xhr, status, p3) {
-
-	  			}
+	  function signOut() {
+	  	chrome.storage.sync.get('shortNumber', function (item) {
+	  		chrome.runtime.sendMessage({inputNumber: item.shortNumber, method: 'signOut'}, function (response) {
+	  			var lastError = chrome.runtime.lastError;
+			if (lastError) {
+				console.log(lastError.message);
+			}
+	  			if (response !== '200') console.log(response);
+	  			openPage();
 	  		});
+	  	});
+	  	chrome.storage.sync.clear();
 	  }
+
 	  function openPage() {
-	  	var leavePageScript = ''
+	  	debugger;
+	  	var openScript = ''
 	  	+ 'var iframe = document.getElementById("mySlide");'
 	  	+ 'iframe.src = chrome.extension.getURL("ui/popupAuth.html");'
-	  	+ 'sessionStorage.shortNumber = "";' 
 	  	chrome.tabs.executeScript({
-	  		code: leavePageScript
+	  		code: openScript
 	  	});
 	  }
 
@@ -118,7 +111,7 @@
 	  		});
 	  		pEl.addEventListener("dblclick", function (e) {
 	  			e.preventDefault();
-	  			openEntityTestFunc(pEl.id)
+	  			openEntityFunc(pEl.id)
 	  		});
 	  	});
 	  }
@@ -140,9 +133,9 @@
 	  	}
 	  }
 
-	  const setSelect = ( e ) => openEntityTestFunc(curEntityId);
+	  const setSelect = ( e ) => openEntityFunc(curEntityId);
 
-	  function openEntityTestFunc(id) {
+	  function openEntityFunc(id) {
 	  	var config = JSON.parse(sessionStorage.config);
 	  	if (config && config != 'undefined') {
 	  		var url = config.Address + "main.aspx?etn=" + config.FindEntityRecord + "&id={" + id + "}&pagetype=entityrecord";

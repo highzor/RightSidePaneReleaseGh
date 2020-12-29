@@ -5,6 +5,7 @@ using System;
 using System.Linq;
 using System.ServiceModel.Description;
 using Newtonsoft.Json;
+using System.Globalization;
 
 namespace ServiceCRM.Helpers
 {
@@ -63,16 +64,22 @@ namespace ServiceCRM.Helpers
             }
             catch (Exception e) { return e.Message; }
         }
-        public string IncommingCall(string callId, DateTime callDate, string caller)
+        public CallerHepler IncommingCall(string callId, DateTime callDate, string caller)
         {
+            CallerHepler callerEntity = null;
             try
             {
                 IOrganizationService service = ConnectToCRM();
                 EntityCollection entites = GetEntities(service, "contact", "telephone1", caller);
                 CreateActivityEntity(service, callId, callDate, caller, entites);
-                return "200";
+                callerEntity = GetCaller(entites);
+                return callerEntity;
             }
-            catch (Exception e) { return e.Message; }
+            catch (Exception e)
+            {
+                callerEntity.Result = e.Message;
+                return callerEntity;
+            }
         }
 
         public string CompleteCall(string callId, DateTime completeDate, string reason)
@@ -81,10 +88,17 @@ namespace ServiceCRM.Helpers
             {
                 IOrganizationService service = ConnectToCRM();
                 Entity entity = GetEntities(service, "phonecall", "new_callid", callId).Entities.FirstOrDefault();
-                entity["actualend"] = completeDate;
-                entity["statecode"] = new OptionSetValue(1);
-                service.Update(entity);
-                return "200";
+                if (entity != null)
+                {
+                    entity["actualend"] = completeDate;
+                    entity["statecode"] = new OptionSetValue(1);
+                    service.Update(entity);
+                    return "200";
+                }
+                else
+                {
+                    return "404";
+                }
             }
             catch (Exception e) { return e.Message; }
         }
@@ -114,9 +128,16 @@ namespace ServiceCRM.Helpers
             {
                 IOrganizationService service = ConnectToCRM();
                 Entity entity = GetEntities(service, "phonecall", "new_callid", callId).Entities.FirstOrDefault();
-                entity["new_answerdate"] = DateTime.Now;
-                service.Update(entity);
-                return "200";
+                if (entity != null)
+                {
+                    entity["new_answerdate"] = DateTime.Now;
+                    service.Update(entity);
+                    return "200";
+                }
+                else
+                {
+                    return "404";
+                }
             }
             catch (Exception e)
             { return e.Message; }
@@ -133,6 +154,13 @@ namespace ServiceCRM.Helpers
             phoneCallEntity["new_callid"] = callId;
             phoneCallEntity["new_calldate"] = callDate;
             phoneCallEntity["phonenumber"] = caller;
+            //Entity[] entityArray = new Entity[entites.Entities.Count];
+            //for (int i = 0; i < entites.Entities.Count; i++)
+            //{
+            //    Entity From = new Entity("activityparty");
+            //    From["partyid"] = new EntityReference("contact", new Guid(entites.Entities[i].Attributes["contactid"].ToString()));
+            //    entityArray[i] = From;
+            //}
             service.Create(phoneCallEntity);
         }
         private EntityCollection GetEntities(IOrganizationService service, string entity, string attribute = "", string value = "")
@@ -162,15 +190,25 @@ namespace ServiceCRM.Helpers
         {
             IOrganizationService service = null;
             ClientCredentials clientCredentials = new ClientCredentials();
-            clientCredentials.UserName.UserName = "user";
-            clientCredentials.UserName.Password = "password";
-            service = (IOrganizationService)new OrganizationServiceProxy(new Uri("http://XX.XX.XX.XXX/LearnAPetukhov/XRMServices/2011/Organization.svc"),
+            clientCredentials.UserName.UserName = "apetukhov";
+            clientCredentials.UserName.Password = "12Qwerty";
+            service = (IOrganizationService)new OrganizationServiceProxy(new Uri("http://10.40.10.146/LearnAPetukhov/XRMServices/2011/Organization.svc"),
              null, clientCredentials, null);
             return service;
         }
         private void SetAuth(Entity entity, bool option)
         {
             entity.Attributes["new_authenticated"] = option;
+        }
+        private CallerHepler GetCaller(EntityCollection entites)
+        {
+            Entity entity = entites.Entities.FirstOrDefault();
+            CallerHepler callerEntity = new CallerHepler();
+            callerEntity.FullName = entity.Attributes["fullname"].ToString();
+            callerEntity.DateOfBirth = DateTime.Parse(entity.Attributes["birthdate"].ToString()).Date.ToString("d");
+            callerEntity.PhoneOfCaller = entity.Attributes["telephone1"].ToString();
+            callerEntity.Result = "200";
+            return callerEntity;
         }
 
     }

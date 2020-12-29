@@ -167,6 +167,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\CallerHepler.cs" />
     <Compile Include="Helpers\CrmHelper.cs" />
     <Compile Include="Models\SignalRUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

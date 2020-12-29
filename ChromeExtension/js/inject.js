@@ -52,6 +52,7 @@
 				return;
 			}
 			document.getElementById("crm-gmcs-button").addEventListener("click", slideRightPane);
+			
 		}
 	}
 	var crmMasthead = document.getElementById('crmMasthead');

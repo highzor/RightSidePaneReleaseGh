@@ -7,11 +7,12 @@ namespace PhoneEmulator
 {
     class Program
     {
-        static string callId = "1344";
+        static string callId = "1348";
         static string callDate = new DateTime(2020, 12, 16).ToString();
         static string completeDate = new DateTime(2020, 12, 16).ToString();
-        static string caller = "%2B7(495)133-33-37";
+        static string caller = "%2B7(985)294-48-11";
         static string reason = "Easy reason";
+        static string shortNumberOfSubscriber = "13377";
 
         static void Main(string[] args)
         {
@@ -56,7 +57,7 @@ namespace PhoneEmulator
         static string IncommingCall()
         {
             string result = "";
-            var httpRequest = (HttpWebRequest)WebRequest.Create($"http://localhost:56623/home/incomingcall?callId={callId}&callDate={callDate}&caller={caller}");
+            var httpRequest = (HttpWebRequest)WebRequest.Create($"http://localhost:56623/home/incomingcall?callId={callId}&callDate={callDate}&caller={caller}&shortNumber={shortNumberOfSubscriber}");
             httpRequest.Method = "POST";
             httpRequest.ContentLength = 0;
             httpRequest.ContentType = "application/json";
