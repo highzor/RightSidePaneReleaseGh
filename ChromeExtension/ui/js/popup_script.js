@@ -59,7 +59,6 @@
 	  }
 
 	  function openPage() {
-	  	debugger;
 	  	var openScript = ''
 	  	+ 'var iframe = document.getElementById("mySlide");'
 	  	+ 'iframe.src = chrome.extension.getURL("ui/popupAuth.html");'

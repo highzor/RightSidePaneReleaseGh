@@ -1,12 +1,11 @@
 document.addEventListener("DOMContentLoaded", function (dcle) {
  document.getElementById("button-signIn").addEventListener("click", signIn);
  var enterForLogIn = document.getElementById("exampleInputPhoneNumber");
- debugger;
  if (enterForLogIn) {
-  enterForLogIn.removeEventListener("keydown").addEventListener("keydown", function (e) {
-    debugger;
+  enterForLogIn.addEventListener("keydown", function (e) {
+
     if (e.keyCode === 13) {
-      debugger;
+  
       e.preventDefault();
       document.getElementById("button-signIn").click();
 
@@ -16,24 +15,23 @@ document.addEventListener("DOMContentLoaded", function (dcle) {
 });
 
 function signIn() {
-  debugger;
   var value = document.getElementById("exampleInputPhoneNumber").value;
   chrome.runtime.sendMessage({method: 'connectSignalR'}, function (response) {
-    debugger;
+
     if (response == '200') {
       var count = 0;
       chrome.runtime.sendMessage({inputNumber: value, method: 'signIn'}, function (response) {
         if (response == '200') {
-          debugger;
+      
           chrome.storage.sync.set({'shortNumber': value});
           openPage();
         } else {
-          debugger;
+      
           errorItemFunc(response);
         }
       });
     } else {
-      debugger;
+  
       errorItemFunc(response);
     }
   });
@@ -49,7 +47,6 @@ function openPage() {
 }
 
 function errorItemFunc(result) {
-  debugger;
   var elem = document.createElement("p");
   elem.style.color = 'red';
   elem.appendChild(document.createTextNode('Error: ' + result));

@@ -10,16 +10,16 @@ var isAnswered = false;
 
 function completeCall() {
   chrome.storage.sync.get('callData', function (fields) {
-    debugger;
+    
     if(!fields.callData) return;
     if (isAnswered) {
       chrome.runtime.sendMessage({callId: fields.callData.callId, completeDate: new Date(), reason: 'easy Reason', method: 'completeCall'}, function (response) {
-        debugger;
+        
         if (response == '200') backToPage();
       });
     } else {
       chrome.runtime.sendMessage({callId: fields.callData.callId, method: 'deny'}, function (response) {
-        debugger;
+        
         if (response == '200') backToPage();
       });
     }
@@ -28,11 +28,11 @@ function completeCall() {
 
 function answer() {
   chrome.storage.sync.get('callData', function (fields) {
-    debugger;
+    
     if(!fields.callData) return;
         chrome.runtime.sendMessage({callId: fields.callData.callId, method: 'answer'}, function (response) {
           if (response == '200') isAnswered = true;
-    debugger;
+    
   });
   });
 }
@@ -48,7 +48,7 @@ function backToPage() {
 
 function callInfo() {
   chrome.storage.sync.get('callData', function (fields) {
-    debugger;
+    
     if(fields.callData) {
       buildPageCall(fields);
     } else {
@@ -58,7 +58,7 @@ function callInfo() {
 }
 
 function buildPageCall(fields) {
-  debugger;
+  
   var container = document.getElementById("callerFields");
   var elem1 = document.createElement("p");
   elem1.appendChild(document.createTextNode(fields.callData.phoneNumber));

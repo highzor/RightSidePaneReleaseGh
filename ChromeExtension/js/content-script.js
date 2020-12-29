@@ -13,9 +13,9 @@ if (topBarCheck) {
    iframe.style.zIndex = "9000000000000000000";
    iframe.style.transition = "all 150ms ease-in-out";
    iframe.frameBorder = "5px";
-   debugger;
+   
    chrome.storage.sync.get('shortNumber', function (item) {
-    debugger;
+    
     if (item.shortNumber && item.shortNumber.length > 0) {
       iframe.src = chrome.extension.getURL("ui/popup.html");
       document.body.appendChild(iframe);
