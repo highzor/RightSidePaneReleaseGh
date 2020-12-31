@@ -57,15 +57,18 @@ function callInfo() {
 }
 
 function buildPageCall(fields) {
-  
   var container = document.getElementById("callerFields");
   var elem1 = document.createElement("p");
+  var phonenumber = fields.callData.phoneNumber;
+  if (phonenumber == null) phonenumber = 'Номер неопределен';
   elem1.appendChild(document.createTextNode(fields.callData.phoneNumber));
   container.appendChild(elem1);
 
   var elem2 = document.createElement("p");
   elem2.style.fontWeight = 'bold';
-  elem2.appendChild(document.createTextNode(fields.callData.fullName));
+  var fullname = fields.callData.fullName;
+  if (fullname == null) fullname = 'Неизвестный контакт';
+  elem2.appendChild(document.createTextNode(fullname));
   container.appendChild(elem2);
 
   var elem3 = document.createElement("p");
