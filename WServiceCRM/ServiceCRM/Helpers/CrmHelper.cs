@@ -240,12 +240,18 @@ namespace ServiceCRM.Helpers
         {
             Entity entity = entites.Entities.FirstOrDefault();
             CallerHepler callerEntity = new CallerHepler();
-            callerEntity.FullName = entity.Attributes["fullname"].ToString();
+            try
+            {
+                callerEntity.FullName = entity.Attributes["fullname"].ToString();
+            } catch { callerEntity.FullName = null; }
             try
             {
                 callerEntity.DateOfBirth = DateTime.Parse(entity.Attributes["birthdate"].ToString()).Date.ToString("d");
             } catch { callerEntity.DateOfBirth = null; }
-            callerEntity.PhoneOfCaller = entity.Attributes["telephone1"].ToString();
+            try
+            {
+                callerEntity.PhoneOfCaller = entity.Attributes["telephone1"].ToString();
+            } catch { callerEntity.PhoneOfCaller = null; }
             callerEntity.Code = 200;
             return callerEntity;
         }
