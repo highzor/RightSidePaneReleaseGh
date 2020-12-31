@@ -33,17 +33,6 @@ namespace ServiceCRM
                 connectionsList.Add(user);
             }
             return response;
-            //if (result.Equals("200"))
-            //{
-
-            //    //Clients.Client(Context.ConnectionId).SignIn();
-            //    //Client(Context.ConnectionId)
-            //}
-            //else
-            //{
-            //   // Clients.Client(Context.ConnectionId).addErrorMessage(result);
-            //}
-
         }
 
         public ResponseHelper SignOut(string inputNumber)
