@@ -76,10 +76,9 @@
 	  	if (!inputLine && inputLine.value.length == 0) return;
 	  	var config = JSON.parse(sessionStorage.config);
 	  	if (!config && config == 'undefined') return;
-	  	var searchField = defineField(inputLine.value, config);
-	  	var filterParam = getFilterParam(searchField, inputLine.value);
+	  	var filterParam = getFilterParamFunc(inputLine.value);
 	  	var entities = new Array();
-	  	entities = getEntities(searchField, config, filterParam);
+	  	getEntities(config, filterParam);
 	  }
 
 	  function putInResultTableSpan(entities) {
@@ -142,21 +141,22 @@
 	  	}
 	  }
 
-	  function getFilterParam(searchField, inputValue) {
+	  function getFilterParamFunc(inputValue) {
 	  	var filterParam = "&$filter=";
-	  	if (/\d/.test(inputValue)) {
-	  		if (inputValue.includes('+')) {
-	  			inputValue = inputValue.replace("+", "%2B");
-	  		}
-	  		filterParam += searchField + " eq '" + inputValue + "'";
+	  	if (inputValue.includes('+')) {
+	  		inputValue = inputValue.replace("+", "%2B");
+	  	}
+	  	if (inputValue.includes('.')) {
+	  		var dateOfBirth = inputValue.split('.');
+	  		filterParam += 'birthdate eq '+dateOfBirth[2]+'-'+dateOfBirth[1]+'-'+dateOfBirth[0];
 	  		return filterParam;
 	  	} else {
-	  		filterParam += "startswith(" + searchField + ", '" + inputValue + "')";
+	  		filterParam += "contains(fullname, '"+inputValue+"') or contains(telephone1, '"+inputValue+"')";
 	  		return filterParam;
 	  	}
 	  }
 
-	  function getEntities(searchField, config, filterParam) {
+	  async function getEntities(config, filterParam) {
 	  	var typeEntity = config.isActivity == "true" ? "activity" : config.FindEntityRecord;
 	  	var selectFields = getFieldForConnectingString(config);
 	  	var oDataEndpointUrl = config.Address + "api/data/v9.0/contacts?$select=" + typeEntity + "id" + selectFields + filterParam;
@@ -183,14 +183,6 @@
 	  	return selectFields;
 	  }
 
-	  function defineField(inputValue, config) {
-	  	if (/\d/.test(inputValue)) {
-	  		return config.SearchFields[1];
-	  	} else {
-	  		return config.SearchFields[0];
-	  	}
-	  }
-
 	  function openEntityListFunc() {
 	  	var config = JSON.parse(sessionStorage.config);
 	  	if (config && config != 'undefined') {
@@ -207,7 +199,7 @@
 	  	}
 	  }
 
-	  function getConfigObject() {
+	  async function getConfigObject() {
 	  	if (!currentUrl.startsWith('http')) return;
 	  	var cutVar = currentUrl.split('/');
 	  	var address = cutVar[0] + '/' + cutVar[1] + '/' + cutVar[2] + '/' + cutVar[3];

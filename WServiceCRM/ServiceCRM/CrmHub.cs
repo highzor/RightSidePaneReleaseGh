@@ -20,64 +20,84 @@ namespace ServiceCRM
             Clients.All.addNewMessageToPage(name, message);
         }
 
-        public string SignIn(string inputNumber)
+        public ResponseHelper SignIn(string inputNumber)
         {
             CrmHelper crm = new CrmHelper();
             Guid connectionId = new Guid(Context.ConnectionId);
-            string result = crm.LogIn(inputNumber, connectionId);
-            if (result.Equals("200"))
+            ResponseHelper response = crm.LogIn(inputNumber, connectionId);
+            if (!response.IsError)
             {
                 SignalRUser user = new SignalRUser();
                 user.ConnectionId = connectionId;
                 user.ShortNumber = inputNumber;
                 connectionsList.Add(user);
             }
-            return result;
+            return response;
+            //if (result.Equals("200"))
+            //{
+
+            //    //Clients.Client(Context.ConnectionId).SignIn();
+            //    //Client(Context.ConnectionId)
+            //}
+            //else
+            //{
+            //   // Clients.Client(Context.ConnectionId).addErrorMessage(result);
+            //}
+
         }
 
-        public string SignOut(string inputNumber)
+        public ResponseHelper SignOut(string inputNumber)
         {
             CrmHelper crm = new CrmHelper();
             Guid connectionId = new Guid(Context.ConnectionId);
-            string result = crm.LogOff(inputNumber, connectionId);
-            if (result.Equals("200"))
+            ResponseHelper response = crm.LogOff(inputNumber, connectionId);
+            if (!response.IsError)
             {
                SignalRUser user = connectionsList.Find(x => x.ConnectionId == connectionId);
                 connectionsList.Remove(user);
             }
-            return result;
+            return response; 
         }
 
-        public string IncomingCall(string callId, DateTime date, string phoneOfCaller, string fullNameOfCaller, string dateOfBirthOfCaller, string shortNumber)
+        public ResponseHelper IncomingCall(string callId, DateTime date, string phoneOfCaller, string fullNameOfCaller, string dateOfBirthOfCaller)
         {
+            ResponseHelper response = new ResponseHelper();
             try
             {
-                SignalRUser user = connectionsList.Find(x => x.ShortNumber.Equals(shortNumber));
                 var context = GlobalHost.ConnectionManager.GetHubContext<CrmHub>();
-                context.Clients.Client(user.ConnectionId.ToString()).IncomingCall(callId, date, phoneOfCaller, fullNameOfCaller, dateOfBirthOfCaller);
-            } catch (Exception e) { return e.Message; }
-            return "200";
+                context.Clients.All.IncomingCall(callId, date, phoneOfCaller, fullNameOfCaller, dateOfBirthOfCaller);
+                response.Code = 200;
+            } catch (Exception e) 
+            {
+                response.IsError = true;
+                response.ErrorMessage = e.Message;
+                response.Code = 500;
+                return response;
+            }
+            return response;
         }
 
-        public string CompleteCall(string callId, DateTime completeDate, string reason)
+        public ResponseHelper CompleteCall(string callId, DateTime completeDate, string reason)
         {
             CrmHelper crm = new CrmHelper();
-            string result = crm.CompleteCall(callId, completeDate, reason);
-            return result;
+            ResponseHelper response = crm.CompleteCall(callId, completeDate, reason);
+            return response;
         }
         public string Summary(string callId)
         {
             return "";
         }
-        public string Answer(string callId)
+        public ResponseHelper Answer(string callId)
         {
             CrmHelper crm = new CrmHelper();
-            string result = crm.Answer(callId);
-            return result;
+            ResponseHelper response = crm.Answer(callId);
+            return response;
         }
-        public string Deny(string callId)
+        public ResponseHelper Deny(string callId)
         {
-            return "200";
+            ResponseHelper response = new ResponseHelper();
+            response.Code = 200;
+            return response;
         }
         public override Task OnConnected()
         {

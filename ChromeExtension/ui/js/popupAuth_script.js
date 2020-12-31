@@ -15,10 +15,9 @@ document.addEventListener("DOMContentLoaded", function (dcle) {
 function signIn() {
   var value = document.getElementById("exampleInputPhoneNumber").value;
   chrome.runtime.sendMessage({method: 'connectSignalR'}, function (response) {
-    if (response == '200') {
-      var count = 0;
+    if (response == 200) {
       chrome.runtime.sendMessage({inputNumber: value, method: 'signIn'}, function (response) {
-        if (response == '200') {
+        if (response == 200) {
           chrome.storage.sync.set({'shortNumber': value});
           openPage();
         } else {

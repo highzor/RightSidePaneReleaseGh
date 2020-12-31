@@ -15,12 +15,12 @@ function completeCall() {
     if (isAnswered) {
       chrome.runtime.sendMessage({callId: fields.callData.callId, completeDate: new Date(), reason: 'easy Reason', method: 'completeCall'}, function (response) {
         
-        if (response == '200') backToPage();
+        if (response == 200) backToPage();
       });
     } else {
       chrome.runtime.sendMessage({callId: fields.callData.callId, method: 'deny'}, function (response) {
         
-        if (response == '200') backToPage();
+        if (response == 200) backToPage();
       });
     }
   });
@@ -30,10 +30,9 @@ function answer() {
   chrome.storage.sync.get('callData', function (fields) {
     
     if(!fields.callData) return;
-        chrome.runtime.sendMessage({callId: fields.callData.callId, method: 'answer'}, function (response) {
-          if (response == '200') isAnswered = true;
-    
-  });
+    chrome.runtime.sendMessage({callId: fields.callData.callId, method: 'answer'}, function (response) {
+      if (response == 200) isAnswered = true;
+    });
   });
 }
 
@@ -70,7 +69,9 @@ function buildPageCall(fields) {
   container.appendChild(elem2);
 
   var elem3 = document.createElement("p");
-  elem3.appendChild(document.createTextNode('Дата рождения: '+fields.callData.dateOfBirth));
+  var date = fields.callData.dateOfBirth;
+  if (date == null) date = 'отсутствует';
+  elem3.appendChild(document.createTextNode('Дата рождения: '+ date));
   container.appendChild(elem3);
 }
 

@@ -5,67 +5,91 @@ using System;
 using System.Linq;
 using System.ServiceModel.Description;
 using Newtonsoft.Json;
-using System.Globalization;
 
 namespace ServiceCRM.Helpers
 {
     public class CrmHelper
     {
-        public string LogIn(string inputNumber, Guid connectionId = new Guid())
+        public ResponseHelper LogIn(string inputNumber, Guid connectionId = new Guid())
         {
+            ResponseHelper response = new ResponseHelper();
             try
             {
                 IOrganizationService service = ConnectToCRM();
                 Entity entity = GetEntities(service, "systemuser", "new_shortnumber", inputNumber).Entities.FirstOrDefault();
                 if (entity != null)
                 {
-                    if (entity.Attributes["new_authenticated"].ToString().Equals("False"))
+                    if ((bool)entity.Attributes["new_authenticated"] == false)
                     {
-                        SetAuth(entity, true);
+                        entity.Attributes["new_authenticated"] = true;
                         service.Update(entity);
-                        return "200";
+                        response.Code = 200;
+                        return response;
                     }
                     else
                     {
-                        return "200";
+                        response.Code = 200;
+                        return response;
                     }
                 }
                 else
                 {
-                    return "404";
+                    response.IsError = true;
+                    response.Code = 404;
+                    response.ErrorMessage = "Not Found";
+                    return response;
                 }
             }
-            catch (Exception e) { return e.Message; }
+            catch (Exception e)
+            {
+                response.IsError = true;
+                response.ErrorMessage = e.Message;
+                response.Code = 500;
+                return response;
+            }
         }
 
-        public string LogOff(string inputNumber, Guid connectionId = new Guid())
+        public ResponseHelper LogOff(string inputNumber, Guid connectionId = new Guid())
         {
+            ResponseHelper response = new ResponseHelper();
             try
             {
                 IOrganizationService service = ConnectToCRM();
                 Entity entity = GetEntities(service, "systemuser", "new_shortnumber", inputNumber).Entities.FirstOrDefault();
                 if (entity != null)
                 {
-                    if (entity.Attributes["new_authenticated"].ToString().Equals("True"))
+                    if ((bool)entity.Attributes["new_authenticated"] == true)
                     {
-                        SetAuth(entity, false);
+                        entity.Attributes["new_authenticated"] = false;
                         service.Update(entity);
-                        return "200";
+                        response.Code = 200;
+                        return response;
                     }
                     else
                     {
-                        return "200";
+                        response.Code = 200;
+                        return response;
                     }
                 }
                 else
                 {
-                    return "404";
+                    response.IsError = true;
+                    response.Code = 404;
+                    response.ErrorMessage = "Not Found";
+                    return response;
                 }
             }
-            catch (Exception e) { return e.Message; }
+            catch (Exception e) 
+            {
+                response.IsError = true;
+                response.ErrorMessage = e.Message;
+                response.Code = 500;
+                return response;
+            }
         }
-        public CallerHepler IncommingCall(string callId, DateTime callDate, string caller)
+        public CallerHepler IncomingCall(string callId, DateTime callDate, string caller)
         {
+            ResponseHelper response = new ResponseHelper();
             CallerHepler callerEntity = null;
             try
             {
@@ -77,13 +101,15 @@ namespace ServiceCRM.Helpers
             }
             catch (Exception e)
             {
-                callerEntity.Result = e.Message;
+                callerEntity.Code = 500;
+                callerEntity.ErrorMessage = e.Message;
                 return callerEntity;
             }
         }
 
-        public string CompleteCall(string callId, DateTime completeDate, string reason)
+        public ResponseHelper CompleteCall(string callId, DateTime completeDate, string reason)
         {
+            ResponseHelper response = new ResponseHelper();
             try
             {
                 IOrganizationService service = ConnectToCRM();
@@ -93,17 +119,28 @@ namespace ServiceCRM.Helpers
                     entity["actualend"] = completeDate;
                     entity["statecode"] = new OptionSetValue(1);
                     service.Update(entity);
-                    return "200";
+                    response.Code = 200;
+                    return response;
                 }
                 else
                 {
-                    return "404";
+                    response.IsError = true;
+                    response.Code = 404;
+                    response.ErrorMessage = "Not Found";
+                    return response;
                 }
             }
-            catch (Exception e) { return e.Message; }
+            catch (Exception e) 
+            {
+                response.IsError = true;
+                response.ErrorMessage = e.Message;
+                response.Code = 500;
+                return response;
+            }
         }
         public string Summary(string callId)
         {
+            ResponseHelper response = new ResponseHelper();
             try
             {
                 IOrganizationService service = ConnectToCRM();
@@ -122,8 +159,9 @@ namespace ServiceCRM.Helpers
             catch (Exception e) { return e.Message; }
         }
 
-        public string Answer(string callId)
+        public ResponseHelper Answer(string callId)
         {
+            ResponseHelper response = new ResponseHelper();
             try
             {
                 IOrganizationService service = ConnectToCRM();
@@ -132,15 +170,24 @@ namespace ServiceCRM.Helpers
                 {
                     entity["new_answerdate"] = DateTime.Now;
                     service.Update(entity);
-                    return "200";
+                    response.Code = 200;
+                    return response;
                 }
                 else
                 {
-                    return "404";
+                    response.IsError = true;
+                    response.Code = 404;
+                    response.ErrorMessage = "Not Found";
+                    return response;
                 }
             }
             catch (Exception e)
-            { return e.Message; }
+            {
+                response.IsError = true;
+                response.ErrorMessage = e.Message;
+                response.Code = 500;
+                return response;
+            }
         }
         private void CreateActivityEntity(IOrganizationService service, string callId, DateTime callDate, string caller, EntityCollection entites)
         {
@@ -183,24 +230,23 @@ namespace ServiceCRM.Helpers
         {
             IOrganizationService service = null;
             ClientCredentials clientCredentials = new ClientCredentials();
-            clientCredentials.UserName.UserName = "username";
-            clientCredentials.UserName.Password = "password";
-            service = (IOrganizationService)new OrganizationServiceProxy(new Uri("http://XX.XX.XX.XXX/LearnAPetukhov/XRMServices/2011/Organization.svc"),
+            clientCredentials.UserName.UserName = "apetukhov";
+            clientCredentials.UserName.Password = "12Qwerty";
+            service = (IOrganizationService)new OrganizationServiceProxy(new Uri("http://10.40.10.146/LearnAPetukhov/XRMServices/2011/Organization.svc"),
              null, clientCredentials, null);
             return service;
-        }
-        private void SetAuth(Entity entity, bool option)
-        {
-            entity.Attributes["new_authenticated"] = option;
         }
         private CallerHepler GetCaller(EntityCollection entites)
         {
             Entity entity = entites.Entities.FirstOrDefault();
             CallerHepler callerEntity = new CallerHepler();
             callerEntity.FullName = entity.Attributes["fullname"].ToString();
-            callerEntity.DateOfBirth = DateTime.Parse(entity.Attributes["birthdate"].ToString()).Date.ToString("d");
+            try
+            {
+                callerEntity.DateOfBirth = DateTime.Parse(entity.Attributes["birthdate"].ToString()).Date.ToString("d");
+            } catch { callerEntity.DateOfBirth = null; }
             callerEntity.PhoneOfCaller = entity.Attributes["telephone1"].ToString();
-            callerEntity.Result = "200";
+            callerEntity.Code = 200;
             return callerEntity;
         }
 

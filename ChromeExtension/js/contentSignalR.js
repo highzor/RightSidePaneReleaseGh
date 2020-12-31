@@ -10,7 +10,7 @@ if (mainBody && mainBody.length > 0 && crmMasthead) {
 }
 
 async function connectSignalR(shortNumber) {
-	var result = '404';
+	var result = 404;
 	$.connection.hub.url = "http://localhost:56623/signalr";
 	crm = $.connection.crmHub;
 	crm.client.IncomingCall = function (idOfCall, dateOfCall, caller, fullname, dateofbirth) {
@@ -25,9 +25,7 @@ async function connectSignalR(shortNumber) {
 		console.log(error);
 	});
 	await $.connection.hub.start().done(function (response) {
-		result = '200';
-		eventFunc();
-
+		result = 200;
 	}).catch(function (error) {
 		console.log(error.message);
 	});
@@ -49,8 +47,8 @@ function openPage() {
 async function signInFunc(inputNumber) {
 	var result;
 	await crm.server.signIn(inputNumber).promise().then(res => {
-		if (res != '200') $.connection.hub.stop();
-		result = res;
+		if (res.IsError) $.connection.hub.stop();
+		result = res.Code;
 	});
 	return result;
 }
@@ -58,7 +56,7 @@ async function signInFunc(inputNumber) {
 async function signOutFunc(inputNumber) {
 	var result;
 	await crm.server.signOut(inputNumber).promise().then(res => {
-		result = res;
+		result = res.Code;
 		$.connection.hub.stop();
 	});
 	return result;
@@ -67,45 +65,46 @@ async function signOutFunc(inputNumber) {
 async function completeCallFunc(callId, completeDate, reason) {
 	var result;
 	await crm.server.completeCall(callId, completeDate, reason).promise().then(res => {
-		result = res});
+		result = res.Code});
 	return result;
 }
 
 async function answerFunc(callId) {
 	var result;
 	await crm.server.answer(callId).promise().then(res => {
-		result = res});
+		result = res.Code});
 	return result;
 }
 
 async function denyFunc(callId) {
 	var result;
 	await crm.server.deny(callId).promise().then(res => {
-		result = res});
+		result = res.Code});
 	return result;
 }
 
-function eventFunc() {
-	chrome.runtime.onMessage.addListener(
-		(response, sender, sendResponse) => {
-			if (response.method == 'signIn' && response.inputNumber.length > 0) {	
-				signInFunc(response.inputNumber).then(sendResponse);
-			}
-			else if (response.method == 'signOut' && response.inputNumber.length > 0) {	
-				signOutFunc(response.inputNumber).then(sendResponse);
-			} 
-			else if (response.method == 'completeCall' && response.callId.length > 0) {	
-				completeCallFunc(response.callId, response.completeDate, response.reason).then(sendResponse);
-			}
-			else if (response.method == 'answer' && response.callId.length > 0) {	
-				answerFunc(response.callId).then(sendResponse);
-			}
-			else if (response.method == 'deny' && response.callId.length > 0) {	
-				denyFunc(response.callId).then(sendResponse);
-			}
-			return true;
-		});
-}
+chrome.runtime.onMessage.addListener(
+	(response, sender, sendResponse) => {
+		switch (response.method) {
+			case 'signIn':
+			signInFunc(response.inputNumber).then(sendResponse);
+			break;
+			case 'signOut':
+			signOutFunc(response.inputNumber).then(sendResponse);
+			break;
+			case 'completeCall':
+			completeCallFunc(response.callId, response.completeDate, response.reason).then(sendResponse);
+			break;
+			case 'answer':
+			answerFunc(response.callId).then(sendResponse);
+			break;
+			case 'deny':
+			denyFunc(response.callId).then(sendResponse);
+			break;
+		}
+		return true;
+	});
+
 
 chrome.runtime.onMessage.addListener(
 	(response, sender, sendResponse) => {
