@@ -6,6 +6,24 @@
 	  	}
 	  });
 
+	  chrome.runtime.onMessage.addListener(
+	  	(response, sender, sendResponse) => {
+	  		switch (response.method) {
+	  			case 'showModal':
+	  			$('#reconnectModal').modal('show');
+	  			break;
+	  			case 'hideModal':
+	  			$('#reconnectModal').modal('hide');
+	  			break;
+	  			case 'disconnectModal':
+	  			$('#reconnectModal').modal('hide');
+	  			if (response.status == true) {
+	  				$('#unsuccesModal').modal('show');
+	  				setTimeout("$('#unsuccesModal').modal('hide');",3000);}
+	  				break;
+	  			}
+	  		});
+
 	  document.addEventListener("DOMContentLoaded", function (dcle) {
 	  	var createContactButton = document.getElementById("button-newContact");
 	  	var searchButton = document.getElementById("button-addon2");

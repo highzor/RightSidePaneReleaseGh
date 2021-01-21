@@ -7,7 +7,7 @@ if (topBarCheck) {
    iframe.style.position = "absolute";
    iframe.style.top = "0px";
    iframe.style.right = "-25%";
-   iframe.style.minWidth = "250px";
+   iframe.style.minWidth = "255px";
    iframe.style.width = "20%";
    iframe.setAttribute("id", "mySlide");
    iframe.style.zIndex = "9000000000000000000";
@@ -39,7 +39,7 @@ function toggle() {
  }
  var iframeMain = window.top.document.querySelector('#contentIFrame0');
  var powerPaneButton = document.getElementById("crm-gmcs-button");
- var powerPaneButton2 = document.getElementById("navTabGMCSButton2div");
+ //var powerPaneButton2 = document.getElementById("navTabGMCSButton2div");
  var dropDownMenuInfo = document.getElementById("navTabButtonUserInfoDropDownId");
  var dropDownMenuSet = document.getElementById("navTabButtonSettingsDropDownId");
  var dropDownMenuSearch = document.getElementsByClassName("navBarSearchTextBoxDiv navBarSearchIcon")[0];
@@ -56,7 +56,7 @@ function toggle() {
  }
  topBar.style.transition = "all 150ms ease-in-out";
  powerPaneButton.style.transition = "all 150ms ease-in-out";
- powerPaneButton2.style.transition = "all 150ms ease-in-out";
+ // powerPaneButton2.style.transition = "all 150ms ease-in-out";
 }
 if (iframe.style.right == "-25%") {
   crmContentPanel.style.top = "130px";
@@ -67,10 +67,10 @@ if (iframe.style.right == "-25%") {
   crmRibbonManager.style.display = "block";
   iframe.style.right = "0%";
   powerPaneButton.style.marginRight = "20%";
-  powerPaneButton2.style.marginRight = "20%";
-  if (dropDownMenu) {
-   dropDownMenu.style.marginRight = "20%";
- }
+ //  powerPaneButton2.style.marginRight = "20%";
+ //  if (dropDownMenu) {
+ //   dropDownMenu.style.marginRight = "20%";
+ // }
  topBar.style.marginRight = "20%";
 } else {
   iframe.style.right = "-25%";
@@ -79,10 +79,10 @@ if (iframe.style.right == "-25%") {
   crmTopBar.style.width = "100%";
   crmRibbonManager.style.display = "inline-block";
   powerPaneButton.style.marginRight = "0%";
-  powerPaneButton2.style.marginRight = "0%";
-  if (dropDownMenu) {
-   dropDownMenu.style.marginRight = "0%";
- }
+ //  powerPaneButton2.style.marginRight = "0%";
+ //  if (dropDownMenu) {
+ //   dropDownMenu.style.marginRight = "0%";
+ // }
  topBar.style.marginRight = "0%";
  crmContentPanel.style.width = "100%";
  crmContentPanel.style.top = "90px";

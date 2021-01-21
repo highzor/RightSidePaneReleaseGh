@@ -9,7 +9,7 @@
   <style>
     .prokrutka {
       height: 200px;
-      width: 95%;
+      width: 90%;
       background: #fff;
       border: 1px solid #C1C1C1;
       overflow-y: scroll;
@@ -25,7 +25,7 @@
     <button type="button" class="btn btn-primary btn-sm" id="button-newContact">Новый контакт</button>
     <button type="button" class="btn btn-secondary btn-sm" id="button-allContacts">Все контакты</button>
   </div>
-  <div class="input-group mb-3" style="margin-top: 50px;margin-left: auto;margin-right: auto;width: 95%;">
+  <div class="input-group mb-3" style="margin-top: 50px;margin-left: auto;margin-right: auto;width: 90%;">
     <input type="text" id="searchForm" class="form-control" placeholder="Найти" aria-label="Найти" aria-describedby="button-addon2">
     <div class="input-group-append">
       <button class="btn btn-outline-secondary btn-sm" type="button" id="button-addon2"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-search" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -40,6 +40,49 @@
   <div class="col-md-4 text-center">
     <button type="button" class="btn btn-primary btn-sm" id="button-openContact">Открыть контакт</button>
   </div>
+
+<div class="modal fade" id="reconnectModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h6 class="modal-title" id="exampleModalLabel">Потеряна связь с сервером</h6>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="text-center">
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Переподключение...
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="unsuccesModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h6 class="modal-title" id="exampleModalLabel">Состояние</h6>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="text-center">
+            <!-- <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> -->
+            Не удалось подключиться
+          </div>
+        </div>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Закрыть</button>
+      </div>
+      </div>
+    </div>
+  </div>
+
   <script src="jquery/jquery-3.5.1.js"></script>
+  <script src="jquery/bootstrap.bundle.min.js"></script>
 </body>
 </html>

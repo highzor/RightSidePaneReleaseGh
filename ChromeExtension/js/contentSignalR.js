@@ -9,39 +9,61 @@ if (mainBody && mainBody.length > 0 && crmMasthead) {
 	});
 }
 
+var tryReconnect = false;
 async function connectSignalR(shortNumber) {
 	var result = 404;
 	$.connection.hub.url = "http://localhost:56623/signalr";
 	crm = $.connection.crmHub;
-	crm.client.IncomingCall = function (idOfCall, dateOfCall, caller, fullname, dateofbirth) {
-		chrome.storage.sync.set({'callData': {callId: idOfCall, callDate: dateOfCall, phoneNumber: caller, fullName: fullname, dateOfBirth: dateofbirth}});
-		openPage();
+	crm.client.IncomingCall = function (caller) {
+		chrome.storage.sync.set({'callData': {callId: caller.CallId, callDate: caller.DateOfCall, phoneNumber: caller.PhoneOfCaller, fullName: caller.FullName, dateOfBirth: caller.DateOfBirth, contactId: caller.ContactId, phoneCallId: caller.PhoneCallId}});
+		openPhonePage();
+	};
+
+	crm.client.BackToPage = function () {
+		backToPageFunc();
 	};
 	
 	if (shortNumber) {
 		$.connection.hub.qs = { 'shortNumber': shortNumber };
 	}
-	await $.connection.hub.error(function (error) {
+	$.connection.hub.error(function (error) {
 		console.log(error);
 	});
 	await $.connection.hub.start().done(function (response) {
 		result = 200;
 	}).catch(function (error) {
+		
 		console.log(error.message);
 	});
+
 	$.connection.hub.reconnecting(function (item) {
 		
+		tryReconnect = true;
+		chrome.runtime.sendMessage({method: 'showModal'});
 	})	
-	
+
+	$.connection.hub.reconnected(function() {
+		
+		tryReconnect = false;
+		chrome.runtime.sendMessage({method: 'hideModal'});
+	});
+
 	$.connection.hub.disconnected(function() {
+		
+		chrome.runtime.sendMessage({method: 'disconnectModal', status: tryReconnect});
 		$.connection.hub.stop();
 	});
 	return result;
 }
 
-function openPage() {
+function openPhonePage() {
 	var iframe = document.getElementById("mySlide");
 	iframe.src = chrome.extension.getURL("ui/popupPhone.html");
+}
+
+function backToPageFunc() {
+	var iframe = document.getElementById("mySlide");
+	iframe.src = chrome.extension.getURL("ui/popup.html");
 }
 
 async function signInFunc(inputNumber) {
@@ -72,19 +94,26 @@ async function completeCallFunc(callId, completeDate, reason) {
 async function answerFunc(callId) {
 	var result;
 	await crm.server.answer(callId).promise().then(res => {
-		result = res.Code});
+		result = res});
 	return result;
 }
 
-async function denyFunc(callId) {
-	var result;
-	await crm.server.deny(callId).promise().then(res => {
-		result = res.Code});
-	return result;
+function openEntityCurrWindowFunc(entity ,entityId) {
+	var entityObj = {
+		entity: entity,
+		entityId: entityId
+	};
+	var jsonObj = JSON.stringify(entityObj);
+	var injectedCode = "openEntityCurrWindow("+jsonObj+")";
+	var script = document.createElement('script');
+	script.appendChild(document.createTextNode('('+ injectedCode +')();'));
+	document.body.appendChild(script);
+
 }
 
 chrome.runtime.onMessage.addListener(
 	(response, sender, sendResponse) => {
+		
 		switch (response.method) {
 			case 'signIn':
 			signInFunc(response.inputNumber).then(sendResponse);
@@ -98,8 +127,8 @@ chrome.runtime.onMessage.addListener(
 			case 'answer':
 			answerFunc(response.callId).then(sendResponse);
 			break;
-			case 'deny':
-			denyFunc(response.callId).then(sendResponse);
+			case 'openEntityCurrWindow':
+			openEntityCurrWindowFunc(response.entity, response.entityId);
 			break;
 		}
 		return true;

@@ -6,7 +6,6 @@ document.addEventListener("DOMContentLoaded", function (dcle) {
     if (e.keyCode === 13) {
       e.preventDefault();
       document.getElementById("button-signIn").click();
-
     } 
   });
 }
