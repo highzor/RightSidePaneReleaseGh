@@ -18,7 +18,6 @@ namespace PhoneEmulator
             Console.WriteLine("IncomingCall() -> press 1");
             Console.WriteLine("CompleteCall() -> press 2");
             Console.WriteLine("Answer() -> press 3");
-            //Console.WriteLine("Deny() -> press 4");
             Console.WriteLine("Summary() -> press 5");
             Console.WriteLine("LogIn() -> press 6");
             bool reload = true;
@@ -42,8 +41,6 @@ namespace PhoneEmulator
                 }
                 else if (num.Equals("4"))
                 {
-                    //result = Deny();
-                    //Console.WriteLine(result);
                 }
                 else if (num.Equals("5"))
                 {
@@ -112,24 +109,7 @@ namespace PhoneEmulator
                 return ((HttpWebResponse)e.Response).StatusDescription;
             }
         }
-        //static string Deny()
-        //{
-        //    var httpRequest = (HttpWebRequest)WebRequest.Create($"http://localhost:56623/cti/deny?callId={callId}");
-        //    httpRequest.Method = "POST";
-        //    httpRequest.ContentLength = 0;
-        //    httpRequest.ContentType = "application/json";
-        //    try
-        //    {
-        //        using (HttpWebResponse httpResponse = (HttpWebResponse)httpRequest.GetResponse())
-        //        {
-        //            return httpResponse.StatusCode.ToString();
-        //        }
-        //    }
-        //    catch (WebException e)
-        //    {
-        //        return ((HttpWebResponse)e.Response).StatusDescription;
-        //    }
-        //}
+
         static string LogIn()
         {
             var httpRequest = (HttpWebRequest)WebRequest.Create($"http://localhost:56623/cti/login?inputNumber={userShortNumber}");
