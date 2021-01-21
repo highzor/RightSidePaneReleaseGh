@@ -10,16 +10,6 @@ namespace ServiceCRM
     public class CrmHub : Hub
     {
         public static List<SignalRUser> connectionsList = new List<SignalRUser>();
-        //public void Hello()
-        //{
-        //    Clients.All.hello();
-        //}
-        //public void Send(string name, string message)
-        //{
-        //    string connectionId = Context.ConnectionId;
-        //    Clients.All.addNewMessageToPage(name, message);
-        //}
-
         /// <summary>
         /// Метод авторизации extension SignalR (вызывается из браузера)
         /// </summary>
@@ -38,17 +28,6 @@ namespace ServiceCRM
                 connectionsList.Add(user);
             }
             return response;
-            //if (result.Equals("200"))
-            //{
-
-            //    //Clients.Client(Context.ConnectionId).SignIn();
-            //    //Client(Context.ConnectionId)
-            //}
-            //else
-            //{
-            //   // Clients.Client(Context.ConnectionId).addErrorMessage(result);
-            //}
-
         }
         /// <summary>
         /// Выход из extension
@@ -140,12 +119,6 @@ namespace ServiceCRM
             }
             return response;
         }
-        //public ResponseHelper Deny(string callId)
-        //{
-        //    ResponseHelper response = new ResponseHelper();
-        //    response.Code = 200;
-        //    return response;
-        //}
         /// <summary>
         /// Триггер SignalR на присоединение пользователя CRM
         /// </summary>
@@ -168,8 +141,6 @@ namespace ServiceCRM
                     user.ConnectionId = new List<Guid> { connectionId };
                     connectionsList.Add(user);
                 }
-                //user.ShortNumber = shortNumber;
-                
             }
             return base.OnConnected();
         }
@@ -190,9 +161,7 @@ namespace ServiceCRM
         /// <returns></returns>
         public override Task OnDisconnected(bool stopCalled)
         {
-            //var shortNumber = Clients.CallerState.shortNumber;
             Guid connectionId = new Guid(Context.ConnectionId);
-            //connectionsList.Find(x => x.ConnectionId.Contains(connectionId));
             try
             {
                 SignalRUser user = connectionsList.Find(x => x.ConnectionId.Contains(connectionId));
@@ -204,8 +173,6 @@ namespace ServiceCRM
                 {
                     connectionsList.Remove(user);
                 }
-                //SignalRUser user = connectionsList.Find(x => x.ConnectionId == connectionId);
-                //SignalRUser user = connectionsList.Find(x => x.ShortNumber.Equals(inputNumber));
             } catch { }
             return base.OnDisconnected(stopCalled);
         }
