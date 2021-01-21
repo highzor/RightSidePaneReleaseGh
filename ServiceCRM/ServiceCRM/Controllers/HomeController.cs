@@ -150,10 +150,5 @@ namespace ServiceCRM.Controllers
             }
             return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
-        //[HttpPost]
-        //public JsonResult Deny(string callId)
-        //{
-        //    return Json("Вызов сброшен без ответа");
-        //}
     }
 }
