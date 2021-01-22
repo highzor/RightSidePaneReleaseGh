@@ -20,7 +20,7 @@
     "storage"
   ],
 	"content_scripts": [ {
-      "js": ["js/jquery-3.5.1.js", "js/content-script.js", "js/inject.js", "js/jquery.signalR-2.2.2.min.js", "js/signalrOrigin.js", "js/contentSignalR.js"],
+      "js": ["js/jquery/jquery-3.5.1.js", "js/content-scripts/content-script.js", "js/content-scripts/inject.js", "js/jquery/jquery.signalR-2.2.2.min.js", "js/jquery/signalrOrigin.js", "js/content-scripts/contentSignalR.js"],
 	  "matches": [ "\u003Call_urls>", "http://*/*", "https://*/*" ],
       "run_at": "document_end"
    } ],

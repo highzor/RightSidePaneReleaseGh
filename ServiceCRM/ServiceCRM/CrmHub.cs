@@ -10,16 +10,6 @@ namespace ServiceCRM
     public class CrmHub : Hub
     {
         public static List<SignalRUser> connectionsList = new List<SignalRUser>();
-        //public void Hello()
-        //{
-        //    Clients.All.hello();
-        //}
-        //public void Send(string name, string message)
-        //{
-        //    string connectionId = Context.ConnectionId;
-        //    Clients.All.addNewMessageToPage(name, message);
-        //}
-
         /// <summary>
         /// Метод авторизации extension SignalR (вызывается из браузера)
         /// </summary>
@@ -38,17 +28,6 @@ namespace ServiceCRM
                 connectionsList.Add(user);
             }
             return response;
-            //if (result.Equals("200"))
-            //{
-
-            //    //Clients.Client(Context.ConnectionId).SignIn();
-            //    //Client(Context.ConnectionId)
-            //}
-            //else
-            //{
-            //   // Clients.Client(Context.ConnectionId).addErrorMessage(result);
-            //}
-
         }
         /// <summary>
         /// Выход из extension
@@ -78,10 +57,10 @@ namespace ServiceCRM
             try
             {
                 SignalRUser user = connectionsList.Find(x => x.ShortNumber.Equals(callerHelper.UserShortNumber));
+                Guid[] connectionsIds = user.ConnectionId.ToArray();
+                string[] connectionsIdsToString = Array.ConvertAll(connectionsIds, x => x.ToString());
                 var context = GlobalHost.ConnectionManager.GetHubContext<CrmHub>();
-                Guid[] array = user.ConnectionId.ToArray();
-                string[] arrayStr = Array.ConvertAll(array, x => x.ToString());
-                context.Clients.Clients(arrayStr).IncomingCall(callerHelper);
+                context.Clients.Clients(connectionsIdsToString).IncomingCall(callerHelper);
                 response.Code = 200;
             } catch (Exception e) 
             {
@@ -108,10 +87,10 @@ namespace ServiceCRM
                 SignalRUser user = connectionsList.Find(x => x.ConnectionId.Contains(connectionId));
                 CrmHelper crm = new CrmHelper();
                 response = crm.SetAttrsCompleteCall(callId, completeDate, reason);
-                Guid[] array = user.ConnectionId.ToArray();
-                string[] arrayStr = Array.ConvertAll(array, x => x.ToString());
+                Guid[] connectionsIds = user.ConnectionId.ToArray();
+                string[] connectionsIdsToString = Array.ConvertAll(connectionsIds, x => x.ToString());
                 var context = GlobalHost.ConnectionManager.GetHubContext<CrmHub>();
-                context.Clients.Clients(arrayStr).BackToPage();
+                context.Clients.Clients(connectionsIdsToString).BackToPage();
             } catch (Exception e)
             {
                 response.IsError = true;
@@ -132,20 +111,30 @@ namespace ServiceCRM
         /// <returns>status code</returns>
         public ResponseHelper Answer(string callId)
         {
-            CrmHelper crm = new CrmHelper();
-            ResponseHelper response = crm.SetAttrsAnswer(callId);
-            if (!response.IsError)
+            ResponseHelper response = new ResponseHelper();
+            try
             {
-                response = crm.CreateIncident(callId);
+                Guid connectionId = new Guid(Context.ConnectionId);
+                SignalRUser user = connectionsList.Find(x => x.ConnectionId.Contains(connectionId));
+                CrmHelper crm = new CrmHelper();
+                response = crm.SetAttrsAnswer(callId);
+                if (!response.IsError)
+                {
+                    response = crm.CreateIncident(callId);
+                    Guid[] connectionsIds = user.ConnectionId.ToArray();
+                    string[] connectionsIdsToString = Array.ConvertAll(connectionsIds, x => x.ToString());
+                    var context = GlobalHost.ConnectionManager.GetHubContext<CrmHub>();
+                    context.Clients.Clients(connectionsIdsToString).SuccessAnswer(response.TransferParam);
+                }
+            } catch (Exception e)
+            {
+                response.IsError = true;
+                response.ErrorMessage = e.Message;
+                response.Code = 500;
+                return response;
             }
             return response;
         }
-        //public ResponseHelper Deny(string callId)
-        //{
-        //    ResponseHelper response = new ResponseHelper();
-        //    response.Code = 200;
-        //    return response;
-        //}
         /// <summary>
         /// Триггер SignalR на присоединение пользователя CRM
         /// </summary>
@@ -190,9 +179,7 @@ namespace ServiceCRM
         /// <returns></returns>
         public override Task OnDisconnected(bool stopCalled)
         {
-            //var shortNumber = Clients.CallerState.shortNumber;
             Guid connectionId = new Guid(Context.ConnectionId);
-            //connectionsList.Find(x => x.ConnectionId.Contains(connectionId));
             try
             {
                 SignalRUser user = connectionsList.Find(x => x.ConnectionId.Contains(connectionId));
@@ -204,8 +191,6 @@ namespace ServiceCRM
                 {
                     connectionsList.Remove(user);
                 }
-                //SignalRUser user = connectionsList.Find(x => x.ConnectionId == connectionId);
-                //SignalRUser user = connectionsList.Find(x => x.ShortNumber.Equals(inputNumber));
             } catch { }
             return base.OnDisconnected(stopCalled);
         }

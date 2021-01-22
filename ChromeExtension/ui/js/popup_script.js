@@ -17,7 +17,7 @@
 	  			break;
 	  			case 'disconnectModal':
 	  			$('#reconnectModal').modal('hide');
-	  			if (response.status == true) {
+	  			if (response.statusReconnect == true) {
 	  				$('#unsuccesModal').modal('show');
 	  				setTimeout("$('#unsuccesModal').modal('hide');",3000);}
 	  				break;
