@@ -27,21 +27,6 @@ function openEntity() {
   chrome.runtime.sendMessage({entityId: "4357CEBC-102F-EB11-B810-005056964201", method: 'open'});
 }
 
-// function answerDep() {
-//   chrome.storage.sync.get('callData', function (fields) {
-//     if(!fields.callData) return;
-//     chrome.runtime.sendMessage({callId: fields.callData.callId, method: 'answer'}, function (response) {
-//       if (response.Code == 200) isAnswered = true;
-//       var incidentId = response.TransferParam, contactId = fields.callData.contactId, phoneCallId = fields.callData.phoneCallId;
-//       openCurrentPage('contact', contactId);
-//       var answerButton = document.getElementById('button-answerCall');
-//       answerButton.setAttribute('disabled', 'disabled');
-//       answerButton.style.opacity = '0';
-//       InitializeButtons(incidentId, phoneCallId);
-//     });
-//   });
-// }
-
 function answer() {
   chrome.storage.sync.get('callData', function (fields) {
     if(!fields.callData) return;
