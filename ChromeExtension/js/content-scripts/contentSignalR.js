@@ -18,15 +18,12 @@ async function connectSignalR(shortNumber) {
 		chrome.storage.sync.set({'callData': {callId: caller.CallId, callDate: caller.DateOfCall, phoneNumber: caller.PhoneOfCaller, fullName: caller.FullName, dateOfBirth: caller.DateOfBirth, contactId: caller.ContactId, phoneCallId: caller.PhoneCallId}});
 		openPhonePage();
 	};
-
 	crm.client.SuccessAnswer = function (incidentId) {
 		chrome.runtime.sendMessage({method: 'successAnswer', param: incidentId});
 	};
-
 	crm.client.BackToPage = function () {
 		backToPageFunc();
 	};
-	
 	if (shortNumber) {
 		$.connection.hub.qs = { 'shortNumber': shortNumber };
 	}
@@ -39,19 +36,14 @@ async function connectSignalR(shortNumber) {
 		
 		console.log(error.message);
 	});
-
 	$.connection.hub.reconnecting(function (item) {
-		
 		tryReconnect = true;
 		chrome.runtime.sendMessage({method: 'showModal'});
 	})	
-
 	$.connection.hub.reconnected(function() {
-		
 		tryReconnect = false;
 		chrome.runtime.sendMessage({method: 'hideModal'});
 	});
-
 	$.connection.hub.disconnected(function() {
 		chrome.runtime.sendMessage({method: 'disconnectModal', statusReconnect: tryReconnect});
 		$.connection.hub.stop();
