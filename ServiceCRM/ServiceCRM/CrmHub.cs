@@ -144,7 +144,6 @@ namespace ServiceCRM
             string shortNumber = Context.QueryString["shortNumber"];
             if (shortNumber != null)
             {
-                //SignalRUser user = new SignalRUser();
                 Guid connectionId = new Guid(Context.ConnectionId);
                 SignalRUser user = connectionsList.Find(x => x.ShortNumber.Equals(shortNumber));
                 if (user != null)
