@@ -157,8 +157,6 @@ namespace ServiceCRM
                     user.ConnectionId = new List<Guid> { connectionId };
                     connectionsList.Add(user);
                 }
-                //user.ShortNumber = shortNumber;
-                
             }
             return base.OnConnected();
         }
