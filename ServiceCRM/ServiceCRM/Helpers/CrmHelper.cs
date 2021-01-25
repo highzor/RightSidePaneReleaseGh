@@ -356,7 +356,7 @@ namespace ServiceCRM.Helpers
         /// <returns>объект с полями информации о вызывающем абоненте АТС</returns>
         private CallerHepler GetCaller(Entity entity, string callId, DateTime callDate, string userShortNumber, Guid phoneCallId)
         {
-          CallerHepler callerEntity = new CallerHepler();
+            CallerHepler callerEntity = new CallerHepler();
             callerEntity.UserShortNumber = userShortNumber;
             callerEntity.CallId = callId;
             callerEntity.DateOfCall = callDate;
@@ -364,14 +364,7 @@ namespace ServiceCRM.Helpers
             callerEntity.ContactId = entity.Id;
             callerEntity.FullName = entity.GetAttributeValue<string>("fullname");
             DateTime birthDateForCheck = entity.GetAttributeValue<DateTime>("birthdate");
-            if (birthDateForCheck.Equals(DateTime.MinValue))
-            {
-                callerEntity.DateOfBirth = null;
-            }
-            else
-            {
-                callerEntity.DateOfBirth = birthDateForCheck.ToString("dd.MM.yyyy");
-            }
+            callerEntity.DateOfBirth = birthDateForCheck.Equals(DateTime.MinValue) ? null : birthDateForCheck.ToShortDateString();
             callerEntity.PhoneOfCaller = entity.GetAttributeValue<string>("telephone1");
             callerEntity.Code = 200;
             return callerEntity;
